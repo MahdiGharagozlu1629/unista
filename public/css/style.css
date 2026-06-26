@@ -1,9 +1,11 @@
 * {
     scrollbar-width: thin !important;
 }
-html{
+
+html {
     overflow-x: hidden !important;
 }
+
 body {
     margin: 0;
     padding: 0;
@@ -11,7 +13,10 @@ body {
     /*color: var(--fonts-color);*/
     font-family: var(--font);
     overflow-x: hidden;
+    background: linear-gradient(135deg, #0d8b95 0%, #076c75 35%, #04545c 70%, #02373e 100%);
+    color: white;
 }
+
 :root {
     --font: "Karla", sans-serif;
     --font-color: #fff;
@@ -27,17 +32,17 @@ body {
 
 .profile-story {
     border-radius: 50%;
-    width: 60px;
-    height: 60px;
+    width: 50px;
+    height: 50px;
     border: 3px solid purple;
     transition: all 0.4s;
 }
 
-.profile-story:hover{
+.profile-story:hover {
     cursor: pointer;
 }
 
-.user-profile:after{
+.user-profile:after {
     content: "";
     width: 1px;
     height: 65px;
@@ -48,14 +53,14 @@ body {
     top: 0;
 }
 
-.scroll-x{
+.scroll-x {
     width: 100%;
     overflow-x: scroll;
     scrollbar-width: thin;
 }
 
 .border-grey {
-    border-color : #343a40 !important;
+    border-color: #343a40 !important;
 }
 
 .border-bottom-radius-0 {
@@ -69,18 +74,22 @@ body {
 }
 
 .rounded-20 {
-    border-radius : 20px !important;
+    border-radius: 20px !important;
+}
+
+.rounded-10 {
+    border-radius: 10px !important;
 }
 
 .rounded-20 > div {
-    border-radius : 20px !important;
+    border-radius: 20px !important;
 }
 
 .profile {
     border-radius: 50%;
     border: 3px solid #343a403b;
-    width: 60px;
-    height: 60px;
+    width: 35px;
+    height: 35px;
     transition: all 0.4s;
 }
 
@@ -109,11 +118,11 @@ body {
     font-size: 25px;
 }
 
-.dislike:hover,.like:hover, .comment:hover {
+.dislike:hover, .like:hover, .comment:hover {
     cursor: pointer;
 }
 
-.object-fit-contain{
+.object-fit-contain {
     object-fit: contain !important;
 }
 
@@ -128,32 +137,45 @@ body {
 
 .footer-card {
     position: fixed;
-    /* top: 0; */
     bottom: 0;
     display: block;
     right: 0;
     left: 0;
-    height: 5rem;
-    /* margin: 0 43px 13px 2px; */
-    /* filter: opacity(0.9); */
+    height: 3rem;
     background: white !important;
-    /* opacity: 1; */
-    /* border: 1px solid #343a40; */
     border-radius: 20px 20px 0 0;
-    /* margin-left: 12px; */
-    /* margin-right: 12px; */
     z-index: 100;
     box-shadow: #0000004d 0px 0px 20px 20px;
 }
 
 .card-profile {
-    width: 4rem;
-    height: 4rem;
+    width: 2rem;
+    height: 2rem;
     margin-right: 8px;
     border: 2px solid purple;
     border-radius: 50%;
 }
 
 .icon-size {
-    font-size: 3rem;
+    font-size: 2rem;
 }
+
+.footer-card a:hover {
+    text-decoration: none;
+}
+
+.footer-card a {
+    color: #8e8e8e;
+}
+
+.dropzone {
+    min-height: 150px;
+    border: 2px solid rgb(0 0 0 / 10%) !important;
+    background: white;
+    padding: 20px 20px;
+    border-radius: 10px;
+    display: flex;
+    width: 100%;
+    overflow-x: scroll;
+}
+

@@ -11,6 +11,8 @@
     <link rel="stylesheet" href="{{asset('css/bootstrap.min.css')}}">
     <link rel="stylesheet" href="{{asset('css/lightslider.css')}}">
     <link rel="stylesheet" href="{{asset("css/feather.css")}}">
+    <link rel="stylesheet" href="{{asset("admin/css/dropzone.css")}}">
+    <link rel="stylesheet" href="{{asset("admin/css/dropzone.min.css")}}">
 
 
     <!-- jQuery and JS bundle w/ Popper.js -->
@@ -35,14 +37,19 @@
         <a href="{{route("profile")}}">
             <img src="{{asset("img/profile.jpg")}}" alt="profile" class="card-profile">
         </a>
-        <a href="#">
+
+        <a href="{{route("post.create")}}">
+            <span class="fe fe-plus-square icon-size"></span>
+        </a>
+
+        <a href="{{route("index")}}">
             <span class="fe fe-home icon-size"></span>
         </a>
     </div>
 
 </div>
 
-
+<script src="{{asset("admin/js/dropzone.min.js")}}"></script>
 @yield('js')
 
 </body>

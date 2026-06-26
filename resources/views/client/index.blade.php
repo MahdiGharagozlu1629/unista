@@ -15,311 +15,56 @@
         </div>
     </div>
     <div class="row mt-3 justify-content-between">
-        <div class="col-12 col-md-6 mb-3 p-0 pr-md-3">
-            <div class="card rounded-20">
-                <div class="card-header border-bottom-radius-0">
-                    <div class="card-title mb-0">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div class="d-flex justify-content-end align-items-center">
-                                <img class="profile mr-2" src="{{asset("img/profile.jpg")}}" alt="">
-                                <a href="#">
-                                    <span>mahdi.gh1629</span>
-                                </a>
-                            </div>
-                            <div class="h-50">
-                                <button class="btn btn-sm btn-outline-dark">{{__("message.follow")}}</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="card-body">
 
-                    <ul class="lightSlider">
-                        <li>
-                            <img class="h-75 w-100 object-fit-contain" src="{{asset("img/profile.jpg")}}" alt="">
-                        </li>
-                        <li>
-                            <img class="h-75 w-100 object-fit-contain" src="{{asset("img/profile.jpg")}}" alt="">
-                        </li>
-                        <li>
-                            <img class="h-75 w-100 object-fit-contain" src="{{asset("img/profile.jpg")}}" alt="">
-                        </li>
-                        {{--                        <li>--}}
-                        {{--                            <h3>2 Slide</h3>--}}
-                        {{--                            <img class="profile-story mr-3" src="{{asset("img/profile.jpg")}}" alt="">--}}
 
-                        {{--                        </li>--}}
-                        {{--                        <li>--}}
-                        {{--                            <h3>3 Slide</h3>--}}
-                        {{--                            <img class="profile-story mr-3" src="{{asset("img/profile.jpg")}}" alt="">--}}
-                        {{--                        </li>--}}
-                        {{--                        <li>--}}
-                        {{--                            <h3>4 Slide</h3>--}}
-                        {{--                            <p>Lorem ipsum Excepteur amet adipisicing fugiat velit nisi.</p>--}}
-                        {{--                        </li>--}}
-                    </ul>
+        @foreach($posts as $post)
 
-                </div>
-                <div class="card-footer border-top-radius-0 text-right px-1">
-                    <div class="d-flex justify-content-end border-bottom border-grey">
-                        <a href="#">
-                            <span class="comment mr-3">💬</span>
-                        </a>
-                        <span class="like">❤️</span>
-                        <span class="dislike">🤍</span>
-                    </div>
-                    <div class="caption mt-2 text-justify">
-                        <span class="fs-13">
-                            لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و با استفاده از طراحان گرافیک است، چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است، و برای شرایط فعلی تکنولوژی مورد نیاز، و کاربردهای متنوع با هدف بهبود
-                        </span>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-12 col-md-6 mb-3 p-0 pr-md-3">
-            <div class="card rounded-20">
-                <div class="card-header border-bottom-radius-0">
-                    <div class="card-title mb-0">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div class="d-flex justify-content-end align-items-center">
-                                <img class="profile mr-2" src="{{asset("img/profile.jpg")}}" alt="">
-                                <a href="#">
-                                    <span>mahdi.gh1629</span>
-                                </a>
-                            </div>
-                            <div class="h-50">
-                                <button class="btn btn-sm btn-outline-dark">{{__("message.follow")}}</button>
+            <div class="col-12 col-md-6 mb-3 p-0 pr-md-3">
+                <div class="card rounded-20">
+                    <div class="card-header border-bottom-radius-0">
+                        <div class="card-title mb-0">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="d-flex justify-content-end align-items-center">
+                                    <img class="profile mr-2" src="{{asset("img/profile.jpg")}}" alt="">
+                                    <a href="#">
+                                        <span>{{$post->user->username}}</span>
+                                    </a>
+                                </div>
+                                {{--                            <div class="h-50">--}}
+                                {{--                                <button class="btn btn-sm btn-outline-dark">{{__("message.follow")}}</button>--}}
+                                {{--                            </div>--}}
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="card-body">
+                    <div class="card-body">
 
-                    <ul class="lightSlider">
-                        <li>
-                            <img class="h-75 w-100 object-fit-contain" src="{{asset("img/profile.jpg")}}" alt="">
-                        </li>
-                        <li>
-                            <img class="h-75 w-100 object-fit-contain" src="{{asset("img/profile.jpg")}}" alt="">
-                        </li>
-                        <li>
-                            <img class="h-75 w-100 object-fit-contain" src="{{asset("img/profile.jpg")}}" alt="">
-                        </li>
-                        {{--                        <li>--}}
-                        {{--                            <h3>2 Slide</h3>--}}
-                        {{--                            <img class="profile-story mr-3" src="{{asset("img/profile.jpg")}}" alt="">--}}
+                        <ul class="lightSlider">
+                            @foreach($post->media as $media)
+                                <li>
+                                    <img class="h-75 w-100 object-fit-contain" src="{{asset("storage/posts/$media->name")}}" alt="">
+                                </li>
+                            @endforeach
+                        </ul>
 
-                        {{--                        </li>--}}
-                        {{--                        <li>--}}
-                        {{--                            <h3>3 Slide</h3>--}}
-                        {{--                            <img class="profile-story mr-3" src="{{asset("img/profile.jpg")}}" alt="">--}}
-                        {{--                        </li>--}}
-                        {{--                        <li>--}}
-                        {{--                            <h3>4 Slide</h3>--}}
-                        {{--                            <p>Lorem ipsum Excepteur amet adipisicing fugiat velit nisi.</p>--}}
-                        {{--                        </li>--}}
-                    </ul>
-
-                </div>
-                <div class="card-footer border-top-radius-0 text-right px-1">
-                    <div class="d-flex justify-content-end border-bottom border-grey">
-                        <a href="#">
-                            <span class="comment mr-3">💬</span>
-                        </a>
-                        <span class="like">❤️</span>
-                        <span class="dislike">🤍</span>
                     </div>
-                    <div class="caption mt-2 text-justify">
+                    <div class="card-footer border-top-radius-0 text-right px-1">
+                        <div class="d-flex justify-content-end border-bottom border-grey">
+                            <a href="#">
+                                <span class="comment mr-3">💬</span>
+                            </a>
+                            <span class="like">❤️</span>
+                            <span class="dislike">🤍</span>
+                        </div>
+                        <div class="caption mt-2 text-justify">
                         <span class="fs-13">
                             لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و با استفاده از طراحان گرافیک است، چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است، و برای شرایط فعلی تکنولوژی مورد نیاز، و کاربردهای متنوع با هدف بهبود
                         </span>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-12 col-md-6 mb-3 p-0 pr-md-3">
-            <div class="card rounded-20">
-                <div class="card-header border-bottom-radius-0">
-                    <div class="card-title mb-0">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div class="d-flex justify-content-end align-items-center">
-                                <img class="profile mr-2" src="{{asset("img/profile.jpg")}}" alt="">
-                                <a href="#">
-                                    <span>mahdi.gh1629</span>
-                                </a>
-                            </div>
-                            <div class="h-50">
-                                <button class="btn btn-sm btn-outline-dark">{{__("message.follow")}}</button>
-                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="card-body">
-
-                    <ul class="lightSlider">
-                        <li>
-                            <img class="h-75 w-100 object-fit-contain" src="{{asset("img/profile.jpg")}}" alt="">
-                        </li>
-                        <li>
-                            <img class="h-75 w-100 object-fit-contain" src="{{asset("img/profile.jpg")}}" alt="">
-                        </li>
-                        <li>
-                            <img class="h-75 w-100 object-fit-contain" src="{{asset("img/profile.jpg")}}" alt="">
-                        </li>
-                        {{--                        <li>--}}
-                        {{--                            <h3>2 Slide</h3>--}}
-                        {{--                            <img class="profile-story mr-3" src="{{asset("img/profile.jpg")}}" alt="">--}}
-
-                        {{--                        </li>--}}
-                        {{--                        <li>--}}
-                        {{--                            <h3>3 Slide</h3>--}}
-                        {{--                            <img class="profile-story mr-3" src="{{asset("img/profile.jpg")}}" alt="">--}}
-                        {{--                        </li>--}}
-                        {{--                        <li>--}}
-                        {{--                            <h3>4 Slide</h3>--}}
-                        {{--                            <p>Lorem ipsum Excepteur amet adipisicing fugiat velit nisi.</p>--}}
-                        {{--                        </li>--}}
-                    </ul>
-
-                </div>
-                <div class="card-footer border-top-radius-0 text-right px-1">
-                    <div class="d-flex justify-content-end border-bottom border-grey">
-                        <a href="#">
-                            <span class="comment mr-3">💬</span>
-                        </a>
-                        <span class="like">❤️</span>
-                        <span class="dislike">🤍</span>
-                    </div>
-                    <div class="caption mt-2 text-justify">
-                        <span class="fs-13">
-                            لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و با استفاده از طراحان گرافیک است، چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است، و برای شرایط فعلی تکنولوژی مورد نیاز، و کاربردهای متنوع با هدف بهبود
-                        </span>
-                    </div>
-                </div>
             </div>
-        </div>
-        <div class="col-12 col-md-6 mb-3 p-0 pr-md-3">
-            <div class="card rounded-20">
-                <div class="card-header border-bottom-radius-0">
-                    <div class="card-title mb-0">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div class="d-flex justify-content-end align-items-center">
-                                <img class="profile mr-2" src="{{asset("img/profile.jpg")}}" alt="">
-                                <a href="#">
-                                    <span>mahdi.gh1629</span>
-                                </a>
-                            </div>
-                            <div class="h-50">
-                                <button class="btn btn-sm btn-outline-dark">{{__("message.follow")}}</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="card-body">
 
-                    <ul class="lightSlider">
-                        <li>
-                            <img class="h-75 w-100 object-fit-contain" src="{{asset("img/profile.jpg")}}" alt="">
-                        </li>
-                        <li>
-                            <img class="h-75 w-100 object-fit-contain" src="{{asset("img/profile.jpg")}}" alt="">
-                        </li>
-                        <li>
-                            <img class="h-75 w-100 object-fit-contain" src="{{asset("img/profile.jpg")}}" alt="">
-                        </li>
-                        {{--                        <li>--}}
-                        {{--                            <h3>2 Slide</h3>--}}
-                        {{--                            <img class="profile-story mr-3" src="{{asset("img/profile.jpg")}}" alt="">--}}
-
-                        {{--                        </li>--}}
-                        {{--                        <li>--}}
-                        {{--                            <h3>3 Slide</h3>--}}
-                        {{--                            <img class="profile-story mr-3" src="{{asset("img/profile.jpg")}}" alt="">--}}
-                        {{--                        </li>--}}
-                        {{--                        <li>--}}
-                        {{--                            <h3>4 Slide</h3>--}}
-                        {{--                            <p>Lorem ipsum Excepteur amet adipisicing fugiat velit nisi.</p>--}}
-                        {{--                        </li>--}}
-                    </ul>
-
-                </div>
-                <div class="card-footer border-top-radius-0 text-right px-1">
-                    <div class="d-flex justify-content-end border-bottom border-grey">
-                        <a href="#">
-                            <span class="comment mr-3">💬</span>
-                        </a>
-                        <span class="like">❤️</span>
-                        <span class="dislike">🤍</span>
-                    </div>
-                    <div class="caption mt-2 text-justify">
-                        <span class="fs-13">
-                            لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و با استفاده از طراحان گرافیک است، چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است، و برای شرایط فعلی تکنولوژی مورد نیاز، و کاربردهای متنوع با هدف بهبود
-                        </span>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-12 col-md-6 mb-3 p-0 pr-md-3">
-            <div class="card rounded-20">
-                <div class="card-header border-bottom-radius-0">
-                    <div class="card-title mb-0">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div class="d-flex justify-content-end align-items-center">
-                                <img class="profile mr-2" src="{{asset("img/profile.jpg")}}" alt="">
-                                <a href="#">
-                                    <span>mahdi.gh1629</span>
-                                </a>
-                            </div>
-                            <div class="h-50">
-                                <button class="btn btn-sm btn-outline-dark">{{__("message.follow")}}</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="card-body">
-
-                    <ul class="lightSlider">
-                        <li>
-                            <img class="h-75 w-100 object-fit-contain" src="{{asset("img/profile.jpg")}}" alt="">
-                        </li>
-                        <li>
-                            <img class="h-75 w-100 object-fit-contain" src="{{asset("img/profile.jpg")}}" alt="">
-                        </li>
-                        <li>
-                            <img class="h-75 w-100 object-fit-contain" src="{{asset("img/profile.jpg")}}" alt="">
-                        </li>
-                        {{--                        <li>--}}
-                        {{--                            <h3>2 Slide</h3>--}}
-                        {{--                            <img class="profile-story mr-3" src="{{asset("img/profile.jpg")}}" alt="">--}}
-
-                        {{--                        </li>--}}
-                        {{--                        <li>--}}
-                        {{--                            <h3>3 Slide</h3>--}}
-                        {{--                            <img class="profile-story mr-3" src="{{asset("img/profile.jpg")}}" alt="">--}}
-                        {{--                        </li>--}}
-                        {{--                        <li>--}}
-                        {{--                            <h3>4 Slide</h3>--}}
-                        {{--                            <p>Lorem ipsum Excepteur amet adipisicing fugiat velit nisi.</p>--}}
-                        {{--                        </li>--}}
-                    </ul>
-
-                </div>
-                <div class="card-footer border-top-radius-0 text-right px-1">
-                    <div class="d-flex justify-content-end border-bottom border-grey">
-                        <a href="#">
-                            <span class="comment mr-3">💬</span>
-                        </a>
-                        <span class="like">❤️</span>
-                        <span class="dislike">🤍</span>
-                    </div>
-                    <div class="caption mt-2 text-justify">
-                        <span class="fs-13">
-                            لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و با استفاده از طراحان گرافیک است، چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است، و برای شرایط فعلی تکنولوژی مورد نیاز، و کاربردهای متنوع با هدف بهبود
-                        </span>
-                    </div>
-                </div>
-            </div>
-        </div>
+        @endforeach
     </div>
 @endsection
 

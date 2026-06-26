@@ -2,10 +2,13 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\MediaController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\IndexController;
 use App\Http\Controllers\Admin\LoginController;
 use App\Http\Controllers\Client\UserController as ClientUserController;
+use App\Http\Controllers\Client\PostController as ClientPostController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -21,6 +24,11 @@ Route::group(['middleware' => ['web' , 'auth:client']], function () {
 
     Route::get('/', [HomeController::class, 'index'])->name('index');
     Route::get('profile' , [ClientUserController::class , 'profile'])->name('profile');
+
+    Route::get('post/create' , [ClientPostController::class , 'create'])->name('post.create');
+    Route::post('post/store' , [ClientPostController::class , 'store'])->name('post.store');
+
+    Route::post('media/create' , [MediaController::class , 'create'])->name('media.create');
 });
 
 Route::prefix('admin')->middleware(['web' , 'auth:web'])->group(function () {
