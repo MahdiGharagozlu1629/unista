@@ -26,7 +26,7 @@
                             <div class="d-flex justify-content-between align-items-center">
                                 <div class="d-flex justify-content-end align-items-center">
                                     <img class="profile mr-2" src="{{asset("img/profile.jpg")}}" alt="">
-                                    <a href="#">
+                                    <a href="{{route("users.show" , ['id' => $post->user->id])}}">
                                         <span>{{$post->user->username}}</span>
                                     </a>
                                 </div>

@@ -28,6 +28,8 @@ Route::group(['middleware' => ['web' , 'auth:client']], function () {
     Route::get('post/create' , [ClientPostController::class , 'create'])->name('post.create');
     Route::post('post/store' , [ClientPostController::class , 'store'])->name('post.store');
 
+    Route::get('users/{id}' , [ClientUserController::class , 'show'])->name('users.show');
+
     Route::post('media/create' , [MediaController::class , 'create'])->name('media.create');
 });
 
