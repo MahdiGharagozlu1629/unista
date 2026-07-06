@@ -25,10 +25,25 @@
 
 <div class="mt-5">
     <div class="d-flex justify-content-between">
-        <a class="btn text-white border-white d-flex align-items-center justify-content-center btn-outline-info w-100 ml-2">
-            <i class="fe fe-user-plus mr-1"></i>
-            دنبال کردن
-        </a>
+        @if($hasFollowing)
+            <form action="{{route("unfollow")}}" method="post" class="w-100 m-0">
+                @csrf
+                <input type="hidden" name="following_id" value="{{$user->id}}">
+                <button type="submit" class="w-100 btn text-white border-white d-flex align-items-center justify-content-center btn-outline-info ">
+                    <i class="fe fe-user-minus mr-1"></i>
+                    لغو دنبال کردن
+                </button>
+            </form>
+        @else
+        <form action="{{route("follow")}}" method="post" class="w-100 m-0">
+            @csrf
+            <input type="hidden" name="following_id" value="{{$user->id}}">
+            <button type="submit" class="w-100 btn text-white border-white d-flex align-items-center justify-content-center btn-outline-info ">
+                <i class="fe fe-user-plus mr-1"></i>
+                دنبال کردن
+            </button>
+        </form>
+        @endif
         <a class="btn text-white border-white d-flex align-items-center justify-content-center btn-outline-info w-100 ml-2">
             <i class="fe fe-message-square mr-1"></i>
             پیام

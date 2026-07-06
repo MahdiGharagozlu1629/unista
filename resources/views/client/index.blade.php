@@ -5,12 +5,13 @@
         <div class="col-3 pl-0 col-md-1 user-profile">
             <img class="profile-story" src="{{asset("img/profile.jpg")}}" alt="">
         </div>
-        <div class="col-9 col-md-11">
+        <div class="col-9 col-md-11 p-0">
             <div class="d-flex scroll-x">
-                <img class="profile-story mr-3" src="{{asset("img/profile.jpg")}}" alt="">
-                <img class="profile-story mr-3" src="{{asset("img/profile.jpg")}}" alt="">
-                <img class="profile-story mr-3" src="{{asset("img/profile.jpg")}}" alt="">
-                <img class="profile-story mr-3" src="{{asset("img/profile.jpg")}}" alt="">
+                <img class="profile-story mr-2" src="{{asset("img/profile.jpg")}}" alt="">
+                <img class="profile-story mr-2" src="{{asset("img/profile.jpg")}}" alt="">
+                <img class="profile-story mr-2" src="{{asset("img/profile.jpg")}}" alt="">
+                <img class="profile-story mr-2" src="{{asset("img/profile.jpg")}}" alt="">
+                <img class="profile-story mr-2" src="{{asset("img/profile.jpg")}}" alt="">
             </div>
         </div>
     </div>
@@ -57,7 +58,7 @@
                         </div>
                         <div class="caption mt-2 text-justify">
                         <span class="fs-13">
-                            لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و با استفاده از طراحان گرافیک است، چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است، و برای شرایط فعلی تکنولوژی مورد نیاز، و کاربردهای متنوع با هدف بهبود
+                            {{$post->content}}
                         </span>
                         </div>
                     </div>

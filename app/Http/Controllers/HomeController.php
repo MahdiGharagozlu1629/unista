@@ -3,28 +3,36 @@
 namespace App\Http\Controllers;
 
 use App\Models\Media;
-use App\Models\Post;
-use Illuminate\Http\Request;
+use App\Enums\FollowStatusEnum;
 
 class HomeController extends Controller
 {
     public function index()
     {
-        $posts = Post::query()
-            ->where('user_id', '!=', auth()->id())
-            ->with('user')
+        $user = auth()->user();
+
+        $followings = $user
+            ->following()
+            ->where('status', FollowStatusEnum::Accept->value)
+            ->with('posts')
             ->get();
 
-        foreach ($posts as $post) {
-            $mediaIds = json_decode($post->media, true);
-            $media = Media::query()
-                ->whereIn('id' , $mediaIds)
-                ->select('media.name')
-                ->get();
+        $posts = [];
+        foreach ($followings as $following) {
+            $posts = $following->posts;
 
-            $post->media = $media;
+            foreach ($posts as $post) {
+                $mediaIds = json_decode($post->media, true);
+                $media = Media::query()
+                    ->whereIn('id', $mediaIds)
+                    ->select('media.name')
+                    ->get();
+
+                $post->media = $media;
+            }
+
         }
 
-        return view('Client::index' , compact('posts'));
+        return view('Client::index', compact('posts'));
     }
 }

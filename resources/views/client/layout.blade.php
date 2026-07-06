@@ -7,22 +7,22 @@
     <script src="{{asset("js/jquery.min.js")}}"></script>
 
     <!-- CSS -->
-    <link rel="stylesheet" href="{{asset('css/style.css')}}">
     <link rel="stylesheet" href="{{asset('css/bootstrap.min.css')}}">
     <link rel="stylesheet" href="{{asset('css/lightslider.css')}}">
     <link rel="stylesheet" href="{{asset("css/feather.css")}}">
     <link rel="stylesheet" href="{{asset("admin/css/dropzone.css")}}">
     <link rel="stylesheet" href="{{asset("admin/css/dropzone.min.css")}}">
+    <link rel="stylesheet" href="{{asset('css/style.css')}}">
 
 
     <!-- jQuery and JS bundle w/ Popper.js -->
-    <script src="{{asset('js/jquery-3.5.1.slim.min.js')}}"></script>
+    <script src="{{asset('js/jquery-3.7.1.min.js')}}"></script>
     <script src="{{asset('js/bootstrap.bundle.min.js')}}"></script>
     <script src="{{asset('js/lightslider.js')}}"></script>
 
     <!-- Meta tags -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+    {{csrf_field()}}
 
 </head>
 

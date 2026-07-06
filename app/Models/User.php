@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -36,5 +37,25 @@ class User extends Authenticatable
     public function media(): HasMany
     {
         return $this->hasMany(Media::class);
+    }
+
+    public function following() : BelongsToMany
+    {
+        return $this->belongsToMany(
+            User::class,
+            'user_follows',
+            'follower_id',
+            'following_id')
+            ->withTimestamps();
+    }
+
+    public function follower() : BelongsToMany
+    {
+        return $this->belongsToMany(
+            User::class,
+            'user_follows',
+            'following_id',
+            'follower_id')
+            ->withTimestamps();
     }
 }

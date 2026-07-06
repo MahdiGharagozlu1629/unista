@@ -18,7 +18,7 @@ class PostController extends Controller
         Post::create([
             'user_id' => auth()->id(),
             'content' => $request->input('content'),
-            'have_comment' => $request->have_comment,
+            'have_comment' => $request->input('have_comment' , false),
             'media' => json_encode($request->media),
         ]);
 

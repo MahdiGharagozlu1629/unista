@@ -9,37 +9,63 @@ html {
 body {
     margin: 0;
     padding: 0;
-    /*background: var(--bg-main);*/
-    /*color: var(--fonts-color);*/
     font-family: var(--font);
     overflow-x: hidden;
-    background: linear-gradient(135deg, #0d8b95 0%, #076c75 35%, #04545c 70%, #02373e 100%);
-    color: white;
+    color: #edf7f8;
+
+    background:
+        radial-gradient(circle at top left,
+        rgba(28,181,194,.15),
+        transparent 28%),
+
+        radial-gradient(circle at bottom right,
+        rgba(5,120,130,.12),
+        transparent 30%),
+
+        linear-gradient(
+            180deg,
+            #08181c 0%,
+            #0b2a30 45%,
+            #08181c 100%
+        );
+
+    background-attachment: fixed;
 }
 
-:root {
-    --font: "Karla", sans-serif;
-    --font-color: #fff;
-    --grad1: #feda75;
-    --grad2: #fa7e1e;
-    --grad3: #d62976;
-    --grad4: #962fbf;
-    --grad5: #4f5bd5;
-    --viewed: gray;
-    --bg-main: #000;
-    --bg-live: red;
+:root{
+    --card:#13252b;
+    --card-light:#19343b;
+
+    --primary:#14aab7;
+    --primary-hover:#1bc7d5;
+
+    --border:#2d474d;
+
+    --text:#edf7f8;
+    --text2:#98afb3;
 }
 
-.profile-story {
-    border-radius: 50%;
-    width: 50px;
-    height: 50px;
-    border: 3px solid purple;
-    transition: all 0.4s;
+.profile-story{
+
+    width:58px;
+    height:58px;
+
+    border-radius:50%;
+
+    border:3px solid #18b5c4;
+
+    padding:2px;
+
+    background:#13242b;
+
+    transition:.3s;
 }
 
-.profile-story:hover {
-    cursor: pointer;
+.profile-story:hover{
+
+    transform:scale(1.08);
+
+    box-shadow:0 0 18px rgba(24,181,196,.45);
 }
 
 .user-profile:after {
@@ -130,8 +156,14 @@ body {
     font-size: 13px;
 }
 
-.caption {
-    max-height: 5rem;
+.caption{
+
+    color:#b7cbcf;
+
+    line-height:1.9;
+
+    max-height:6rem;
+
     overflow-y: scroll;
 }
 
@@ -142,10 +174,34 @@ body {
     right: 0;
     left: 0;
     height: 3rem;
-    background: white !important;
-    border-radius: 20px 20px 0 0;
     z-index: 100;
-    box-shadow: #0000004d 0px 0px 20px 20px;
+
+    background:rgba(19,37,43,.92)!important;
+
+    backdrop-filter:blur(18px);
+
+    border-top:1px solid rgba(255,255,255,.05);
+
+    box-shadow:0 -10px 35px rgba(0,0,0,.45);
+
+    border-radius:22px 22px 0 0;
+}
+
+.footer-card a{
+    color:#7c9ca1;
+    transition:.25s;
+}
+
+.footer-card a:hover{
+    color:#15b4c0;
+}
+
+.card-header,
+.card-footer{
+
+    background:rgba(255,255,255,.02)!important;
+
+    border-color:rgba(255,255,255,.05);
 }
 
 .card-profile {
@@ -170,8 +226,8 @@ body {
 
 .dropzone {
     min-height: 150px;
-    border: 2px solid rgb(0 0 0 / 10%) !important;
-    background: white;
+    border:2px dashed #31565d!important;
+    background:#13252b;
     padding: 20px 20px;
     border-radius: 10px;
     display: flex;
@@ -185,4 +241,102 @@ body {
     width: 5rem;
     height: 5rem;
     transition: all 0.4s;
+}
+
+.profile,
+.profile-user,
+.card-profile{
+
+    border:2px solid #16b8c5;
+
+    box-shadow:0 0 15px rgba(22,184,197,.18);
+}
+
+::-webkit-scrollbar{
+    width:7px;
+    height:7px;
+}
+
+::-webkit-scrollbar-thumb{
+
+    background:#16a8b5;
+
+    border-radius:20px;
+}
+
+::-webkit-scrollbar-track{
+
+    background:#102126;
+}
+
+.btn-primary{
+
+    background:#14aab7;
+
+    border:none;
+}
+
+.btn-primary:hover{
+
+    background:#1bc7d5;
+}
+
+.card {
+    background: #13242b;
+    border: 1px solid #ffffff30;
+    border-radius: 22px;
+    color: #eef6f7;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, .35);
+}
+
+.card-header,
+.card-footer{
+    background:#13242b!important;
+    border-color:#234047!important;
+}
+
+.card-header{
+
+    padding:.9rem 1rem;
+}
+
+.profile{
+
+    width:42px;
+    height:42px;
+
+    border:2px solid #18b5c4;
+}
+
+.card-header a{
+
+    color:#eef6f7;
+
+    font-weight:600;
+}
+
+.card-header a:hover{
+
+    color:#18b5c4;
+
+    text-decoration:none;
+}
+
+.card-body{
+    background: #0e242c;
+    border-radius: 0 !important;
+}
+
+.lSSlideOuter .lSPager.lSpg > li a {
+    background-color: #FFFFFF;
+    border-radius: 30px;
+    display: inline-block;
+    height: 8px;
+    overflow: hidden;
+    text-indent: -999em;
+    width: 8px;
+    position: relative;
+    z-index: 99;
+    -webkit-transition: all 0.5s linear 0s;
+    transition: all 0.5s linear 0s;
 }
