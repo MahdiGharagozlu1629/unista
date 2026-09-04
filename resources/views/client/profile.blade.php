@@ -1,54 +1,198 @@
 @extends('client.layout')
+@section('main')
 
-<div class="d-flex">
-    <img class="profile-user" src="{{asset("img/profile.jpg")}}" alt="">
-    <div class="d-flex flex-column justify-content-center ml-3 w-100 mt-2">
-        <span class="text-white ml-3">{{$user->username}}</span>
-        <table class="text-white">
-            <thead>
-            <tr>
-                <th width="25%" class="text-center">پست ها</th>
-                <th width="25%" class="text-center">دنبال کننده</th>
-                <th width="25%" class="text-center">دنبال شونده</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td width="25%" class="text-center">{{count($user->posts)}}</td>
-                <td width="25%" class="text-center">100</td>
-                <td width="25%" class="text-center">5000</td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
-</div>
+    <style>
+        .ig-profile {
+            max-width: 640px;
+            margin: 0 auto;
+        }
 
-<div class="mt-5">
-    <div class="d-flex justify-content-between">
-        <a href="{{route("follow.requests")}}" class="w-100 btn text-white border-white d-flex align-items-center justify-content-center btn-outline-info ">
-            <i class="fe fe-bell mr-1"></i>
-            درخواست ها
-        </a>
-        <a href="#" class="w-100 btn text-white border-white d-flex align-items-center justify-content-center btn-outline-info ml-2">
-            <i class="fe fe-edit-2 mr-1"></i>
-            ویرایش پروفایل
-        </a>
-    </div>
-</div>
+        .profile-top {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            padding: 1.5rem 0 2rem;
+        }
 
-@if(count($user->posts) > 0)
-    <div class="mt-5 text-white border">
-        <div class="d-flex justify-content-start flex-wrap">
-            @foreach($user->posts as $post)
-                <a href="" class="h-50 w-25">
-                    <img class="h-100 w-100 border p-1 object-fit-contain"
-                         src="{{asset("storage/posts/"  . $post->media->name)}}" alt="">
-                </a>
-            @endforeach
+        .profile-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 1px solid #262626;
+            flex: 0 0 auto;
+        }
+
+        .profile-meta {
+            flex: 1 1 auto;
+            min-width: 0;
+        }
+
+        .profile-username {
+            color: #fafafa;
+            font-size: 22px;
+            font-weight: 400;
+            margin-bottom: 1rem;
+            line-height: 1;
+        }
+
+        .profile-stats {
+            display: flex;
+            gap: 2.5rem;
+            color: #fafafa;
+            font-size: 16px;
+        }
+
+        .profile-stats .stat {
+            white-space: nowrap;
+        }
+
+        .profile-stats .stat b {
+            font-weight: 600;
+        }
+
+        .profile-stats .stat span {
+            color: #a8a8a8;
+        }
+
+        .profile-actions {
+            display: flex;
+            gap: .6rem;
+            padding-bottom: 1.5rem;
+        }
+
+        .ig-btn {
+            flex: 1 1 0;
+            border-radius: 10px;
+            padding: .55rem 1rem;
+            font-size: 14px;
+            font-weight: 700;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: .4rem;
+            transition: background .2s ease, transform .1s ease;
+            cursor: pointer;
+            text-decoration: none;
+            color: #fafafa;
+        }
+
+        .ig-btn:active {
+            transform: scale(.98);
+        }
+
+        .ig-btn-dark {
+            background: #262626;
+            color: #fafafa;
+        }
+
+        .ig-btn-dark:hover {
+            background: #363636;
+            color: #fafafa;
+            text-decoration: none;
+        }
+
+        .profile-divider {
+            border-top: 1px solid #262626;
+            margin: 0 -1rem;
+        }
+
+        .posts-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 4px;
+            margin-top: 1rem;
+        }
+
+        .posts-grid a {
+            position: relative;
+            aspect-ratio: 1 / 1;
+            overflow: hidden;
+            display: block;
+        }
+
+        .posts-grid img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .posts-grid a::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, .25);
+            opacity: 0;
+            transition: opacity .2s ease;
+        }
+
+        .posts-grid a:hover::after {
+            opacity: 1;
+        }
+
+        .empty-posts {
+            text-align: center;
+            color: #a8a8a8;
+            padding: 4rem 1rem;
+        }
+
+        .empty-posts .fe {
+            font-size: 2.6rem;
+            color: #d6249f;
+            opacity: .8;
+        }
+    </style>
+
+    <div class="ig-profile">
+
+        {{-- Header --}}
+        <div class="profile-top">
+            <img class="profile-avatar" src="{{ asset('img/profile.jpg') }}" alt="">
+            <div class="profile-meta">
+                <div class="profile-username">{{ $user->username }}</div>
+                <div class="profile-stats">
+                    <div class="stat"><b>{{ count($user->posts) }}</b> <span>پست</span></div>
+                    <div class="stat"><b>100</b> <span>دنبال کننده</span></div>
+                    <div class="stat"><b>5000</b> <span>دنبال شونده</span></div>
+                </div>
+            </div>
         </div>
-    </div>
-@endif
 
+        {{-- Actions --}}
+        <div class="profile-actions">
+            <a href="{{ route('follow.requests') }}" class="ig-btn ig-btn-dark">
+                <i class="fe fe-bell"></i>
+                درخواست ها
+            </a>
+            <a href="#" class="ig-btn ig-btn-dark">
+                <i class="fe fe-edit-2"></i>
+                ویرایش پروفایل
+            </a>
+        </div>
+
+        <div class="profile-divider"></div>
+
+        {{-- Posts grid --}}
+        @if(count($user->posts) > 0)
+            <div class="posts-grid">
+                @foreach($user->posts as $post)
+                    <a href="#">
+                        <img src="{{ asset("storage/posts/" . $post->media->name) }}" alt="">
+                    </a>
+                @endforeach
+            </div>
+        @else
+            <div class="empty-posts">
+                <span class="fe fe-image"></span>
+                <p class="mt-3 mb-0">هنوز پستی منتشر نشده است.</p>
+            </div>
+        @endif
+
+    </div>
+
+@endsection
 
 @section('js')
 
