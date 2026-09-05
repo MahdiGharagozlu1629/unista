@@ -3,83 +3,85 @@
 
     <style>
         .ig-profile {
-            max-width: 640px;
+            max-width: 935px;
             margin: 0 auto;
+            padding: 0 1rem;
         }
 
-        .profile-top {
+        /* ----------------- Profile Header ----------------- */
+        .profile-header {
             display: flex;
             align-items: center;
-            gap: 2rem;
-            padding: 1.5rem 0 2rem;
+            gap: 2.5rem;
+            padding: 1.5rem 0 2.5rem;
+        }
+
+        .avatar-wrap {
+            flex: 0 0 auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
         .profile-avatar {
-            width: 100px;
-            height: 100px;
+            width: 140px;
+            height: 140px;
             border-radius: 50%;
             object-fit: cover;
-            border: 1px solid #262626;
-            flex: 0 0 auto;
+            border: 1px solid var(--ig-border, #262626);
+            padding: 2px;
+            background: #000;
         }
 
-        .profile-meta {
+        .profile-info {
             flex: 1 1 auto;
             min-width: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+        }
+
+        .profile-title-row {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
         }
 
         .profile-username {
             color: #fafafa;
-            font-size: 22px;
+            font-size: 20px;
             font-weight: 400;
-            margin-bottom: 1rem;
+            margin: 0;
             line-height: 1;
         }
 
-        .profile-stats {
+        .profile-actions-inline {
             display: flex;
-            gap: 2.5rem;
-            color: #fafafa;
-            font-size: 16px;
-        }
-
-        .profile-stats .stat {
-            white-space: nowrap;
-        }
-
-        .profile-stats .stat b {
-            font-weight: 600;
-        }
-
-        .profile-stats .stat span {
-            color: #a8a8a8;
-        }
-
-        .profile-actions {
-            display: flex;
+            align-items: center;
             gap: .6rem;
-            padding-bottom: 1.5rem;
+            flex-wrap: wrap;
         }
 
         .ig-btn {
-            flex: 1 1 0;
-            border-radius: 10px;
-            padding: .55rem 1rem;
-            font-size: 14px;
-            font-weight: 700;
+            border-radius: 8px;
+            padding: .5rem 1.1rem;
+            font-size: 13.5px;
+            font-weight: 600;
             border: none;
-            display: flex;
+            display: inline-flex;
             align-items: center;
             justify-content: center;
             gap: .4rem;
-            transition: background .2s ease, transform .1s ease;
+            transition: background .18s ease, transform .1s ease, opacity .18s ease;
             cursor: pointer;
             text-decoration: none;
             color: #fafafa;
+            white-space: nowrap;
         }
 
         .ig-btn:active {
-            transform: scale(.98);
+            transform: scale(.97);
         }
 
         .ig-btn-dark {
@@ -93,16 +95,81 @@
             text-decoration: none;
         }
 
-        .profile-divider {
-            border-top: 1px solid #262626;
-            margin: 0 -1rem;
+        .profile-stats {
+            display: flex;
+            align-items: center;
+            gap: 2.5rem;
+            color: #fafafa;
+            font-size: 15px;
         }
 
+        .profile-stats .stat {
+            white-space: nowrap;
+        }
+
+        .profile-stats .stat b {
+            font-weight: 700;
+            font-size: 16px;
+        }
+
+        .profile-stats .stat span {
+            color: #ededed;
+            margin-inline-start: 4px;
+        }
+
+        .profile-bio {
+            color: #fafafa;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .profile-bio .bio-name {
+            font-weight: 700;
+            display: block;
+            margin-bottom: 2px;
+        }
+
+        /* ----------------- Profile Tabs ----------------- */
+        .profile-tabs {
+            border-top: 1px solid var(--ig-border, #262626);
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            margin-top: .5rem;
+        }
+
+        .profile-tab {
+            display: inline-flex;
+            align-items: center;
+            gap: .5rem;
+            padding: 1rem 0;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            color: #a8a8a8;
+            text-decoration: none;
+            border-top: 1px solid transparent;
+            margin-top: -1px;
+            cursor: pointer;
+        }
+
+        .profile-tab.active {
+            color: #fafafa;
+            border-top-color: #fafafa;
+        }
+
+        .profile-tab:hover {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        /* ----------------- Posts Grid ----------------- */
         .posts-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 4px;
+            gap: 20px;
             margin-top: 1rem;
+            margin-bottom: 2rem;
         }
 
         .posts-grid a {
@@ -110,6 +177,8 @@
             aspect-ratio: 1 / 1;
             overflow: hidden;
             display: block;
+            background: #121212;
+            border-radius: 4px;
         }
 
         .posts-grid img {
@@ -117,18 +186,29 @@
             height: 100%;
             object-fit: cover;
             display: block;
+            transition: transform .25s ease;
         }
 
-        .posts-grid a::after {
-            content: "";
+        .posts-grid a:hover img {
+            transform: scale(1.02);
+        }
+
+        .posts-grid a .grid-overlay {
             position: absolute;
             inset: 0;
-            background: rgba(0, 0, 0, .25);
+            background: rgba(0, 0, 0, .35);
             opacity: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1.5rem;
+            color: #fff;
+            font-weight: 700;
+            font-size: 15px;
             transition: opacity .2s ease;
         }
 
-        .posts-grid a:hover::after {
+        .posts-grid a:hover .grid-overlay {
             opacity: 1;
         }
 
@@ -139,54 +219,216 @@
         }
 
         .empty-posts .fe {
-            font-size: 2.6rem;
+            font-size: 2.8rem;
             color: #d6249f;
             opacity: .8;
+        }
+
+        /* ----------------- Mobile Adjustments (< 768px) ----------------- */
+        @media (max-width: 767.98px) {
+            .ig-profile {
+                padding: 0;
+            }
+
+            .profile-header {
+                display: block;
+                padding: 1rem 1rem 0;
+            }
+
+            .profile-top-mobile {
+                display: flex;
+                align-items: center;
+                gap: 1.5rem;
+                margin-bottom: 1rem;
+            }
+
+            .profile-avatar {
+                width: 77px;
+                height: 77px;
+            }
+
+            .profile-stats-mobile {
+                flex: 1 1 auto;
+                display: flex;
+                justify-content: space-around;
+                align-items: center;
+                text-align: center;
+            }
+
+            .profile-stats-mobile .stat {
+                display: flex;
+                flex-direction: column;
+            }
+
+            .profile-stats-mobile .stat b {
+                font-size: 17px;
+                line-height: 1.2;
+            }
+
+            .profile-stats-mobile .stat span {
+                font-size: 13px;
+                color: #a8a8a8;
+                margin-inline-start: 0;
+            }
+
+            .profile-desktop-stats {
+                display: none !important;
+            }
+
+            .profile-desktop-actions {
+                display: none !important;
+            }
+
+            .profile-bio-mobile {
+                margin-bottom: 1rem;
+            }
+
+            .profile-actions-mobile {
+                display: flex;
+                gap: .5rem;
+                margin-bottom: 1rem;
+            }
+
+            .profile-actions-mobile .ig-btn {
+                flex: 1 1 0;
+                padding: .5rem;
+                font-size: 13px;
+            }
+
+            .profile-tabs {
+                gap: 0;
+            }
+
+            .profile-tab {
+                flex: 1 1 0;
+                justify-content: center;
+                font-size: 11px;
+                padding: .75rem 0;
+            }
+
+            .posts-grid {
+                gap: 3px;
+                margin-top: 0;
+                margin-bottom: 1rem;
+            }
+
+            .posts-grid a {
+                border-radius: 0;
+            }
+
+            .posts-grid a .grid-overlay {
+                display: none; /* No hover on touch devices */
+            }
         }
     </style>
 
     <div class="ig-profile">
 
-        {{-- Header --}}
-        <div class="profile-top">
-            <img class="profile-avatar" src="{{ asset('img/profile.jpg') }}" alt="">
-            <div class="profile-meta">
-                <div class="profile-username">{{ $user->username }}</div>
-                <div class="profile-stats">
-                    <div class="stat"><b>{{ count($user->posts) }}</b> <span>پست</span></div>
-                    <div class="stat"><b>100</b> <span>دنبال کننده</span></div>
-                    <div class="stat"><b>5000</b> <span>دنبال شونده</span></div>
+        {{-- Profile Header --}}
+        <header class="profile-header">
+
+            {{-- Mobile Layout (< 768px) --}}
+            <div class="d-md-none">
+                <div class="profile-top-mobile">
+                    <div class="avatar-wrap">
+                        <img class="profile-avatar" src="{{ asset('img/profile.jpg') }}" alt="{{ $user->username }}">
+                    </div>
+                    <div class="profile-stats-mobile">
+                        <div class="stat">
+                            <b>{{ count($user->posts) }}</b>
+                            <span>پست‌ها</span>
+                        </div>
+                        <div class="stat">
+                            <b>100</b>
+                            <span>دنبال‌کننده</span>
+                        </div>
+                        <div class="stat">
+                            <b>5,000</b>
+                            <span>دنبال‌شونده</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="profile-bio-mobile">
+                    <div class="profile-username font-weight-bold mb-1">{{ $user->username }}</div>
+                    <div class="profile-bio text-muted">دانشجوی فعال دانشگاه • پلتفرم Unista</div>
+                </div>
+
+                <div class="profile-actions-mobile">
+                    <a href="{{ route('follow.requests') }}" class="ig-btn ig-btn-dark">
+                        <i class="fe fe-bell"></i>
+                        درخواست‌ها
+                    </a>
+                    <a href="#" class="ig-btn ig-btn-dark">
+                        <i class="fe fe-edit-2"></i>
+                        ویرایش پروفایل
+                    </a>
                 </div>
             </div>
-        </div>
 
-        {{-- Actions --}}
-        <div class="profile-actions">
-            <a href="{{ route('follow.requests') }}" class="ig-btn ig-btn-dark">
-                <i class="fe fe-bell"></i>
-                درخواست ها
-            </a>
-            <a href="#" class="ig-btn ig-btn-dark">
-                <i class="fe fe-edit-2"></i>
-                ویرایش پروفایل
-            </a>
-        </div>
+            {{-- Desktop Layout (>= 768px) --}}
+            <div class="avatar-wrap d-none d-md-flex">
+                <img class="profile-avatar" src="{{ asset('img/profile.jpg') }}" alt="{{ $user->username }}">
+            </div>
 
-        <div class="profile-divider"></div>
+            <div class="profile-info d-none d-md-flex">
+                <div class="profile-title-row">
+                    <h1 class="profile-username">{{ $user->username }}</h1>
+                    <div class="profile-actions-inline profile-desktop-actions">
+                        <a href="{{ route('follow.requests') }}" class="ig-btn ig-btn-dark">
+                            <i class="fe fe-bell"></i>
+                            درخواست‌ها
+                        </a>
+                        <a href="#" class="ig-btn ig-btn-dark">
+                            <i class="fe fe-edit-2"></i>
+                            ویرایش پروفایل
+                        </a>
+                    </div>
+                </div>
+
+                <div class="profile-stats profile-desktop-stats">
+                    <div class="stat"><b>{{ count($user->posts) }}</b> <span>پست</span></div>
+                    <div class="stat"><b>100</b> <span>دنبال‌کننده</span></div>
+                    <div class="stat"><b>5,000</b> <span>دنبال‌شونده</span></div>
+                </div>
+
+                <div class="profile-bio">
+                    <span class="bio-name">{{ $user->username }}</span>
+                    <span>دانشجوی فعال دانشگاه • پلتفرم اشتراک‌گذاری اجتماعی Unista</span>
+                </div>
+            </div>
+
+        </header>
+
+        {{-- Profile Tabs --}}
+        <div class="profile-tabs">
+            <div class="profile-tab active">
+                <span class="fe fe-grid"></span>
+                <span>پست‌ها</span>
+            </div>
+        </div>
 
         {{-- Posts grid --}}
         @if(count($user->posts) > 0)
             <div class="posts-grid">
                 @foreach($user->posts as $post)
                     <a href="#">
-                        <img src="{{ asset("storage/posts/" . $post->media->name) }}" alt="">
+                        @if($post->media && !empty($post->media->name))
+                            <img src="{{ asset("storage/posts/" . $post->media->name) }}" alt="Post">
+                        @else
+                            <img src="{{ asset('img/profile.jpg') }}" alt="Post">
+                        @endif
+                        <div class="grid-overlay">
+                            <span>❤️ ۱۲</span>
+                            <span>💬 ۲</span>
+                        </div>
                     </a>
                 @endforeach
             </div>
         @else
             <div class="empty-posts">
                 <span class="fe fe-image"></span>
-                <p class="mt-3 mb-0">هنوز پستی منتشر نشده است.</p>
+                <p class="mt-3 mb-0">هنوز پستی منتشر نکرده‌اید.</p>
             </div>
         @endif
 

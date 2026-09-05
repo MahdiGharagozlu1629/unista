@@ -34,6 +34,7 @@ Route::group(['middleware' => ['web' , 'auth:client']], function () {
     Route::post('unfollow' , [ClientUserController::class , 'unfollow'])->name('unfollow');
     Route::get('follow-requests' , [ClientUserController::class , 'followRequests'])->name('follow.requests');
     Route::post('accept-follow' , [ClientUserController::class , 'acceptFollow'])->name('accept.follow');
+    Route::get('search' , [HomeController::class , 'search'])->name('search');
 
     Route::post('media/create' , [MediaController::class , 'create'])->name('media.create');
 });

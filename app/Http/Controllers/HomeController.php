@@ -35,4 +35,9 @@ class HomeController extends Controller
 
         return view('Client::index', compact('posts'));
     }
+
+    public function search()
+    {
+
+    }
 }

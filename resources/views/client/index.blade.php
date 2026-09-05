@@ -2,32 +2,56 @@
 @section('main')
 
     <style>
-        /* ===================== Instagram-style UI ===================== */
+        /* ===================== Instagram-style Feed UI ===================== */
 
-        /* ----- Story / highlights bar (IG gradient rings) ----- */
+        .feed-container {
+            max-width: 630px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+        }
+
+        /* ----- Story / Highlights Bar ----- */
+        .story-bar-card {
+            background: #000;
+            border: 1px solid var(--ig-border, #262626);
+            border-radius: 12px;
+            padding: 1rem .8rem .8rem;
+            margin-bottom: .5rem;
+        }
+
         .story-bar {
             display: flex;
-            gap: 1.1rem;
+            gap: 1.2rem;
             overflow-x: auto;
-            padding: .4rem .2rem 1.2rem;
-            scrollbar-width: thin;
+            padding: 0 .2rem .4rem;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .story-bar::-webkit-scrollbar {
+            display: none;
         }
 
         .story {
             flex: 0 0 auto;
             text-align: center;
             cursor: pointer;
+            width: 72px;
         }
 
         .story-ring {
             width: 66px;
             height: 66px;
+            margin: 0 auto;
             border-radius: 50%;
-            padding: 3px;
+            padding: 2.5px;
             /* Classic Instagram gradient */
             background: radial-gradient(circle at 30% 107%,
                 #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285aeb 90%);
-            transition: transform .25s ease;
+            transition: transform .2s ease;
         }
 
         .story-ring img {
@@ -35,59 +59,61 @@
             height: 100%;
             border-radius: 50%;
             object-fit: cover;
-            border: 2px solid #08181c;
+            border: 2px solid #000;
             display: block;
         }
 
         .story:hover .story-ring {
-            transform: scale(1.06);
+            transform: scale(1.05);
         }
 
         .story-name {
-            margin-top: .45rem;
+            margin-top: .4rem;
             font-size: 12px;
             color: #a8a8a8;
-            max-width: 66px;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
         }
 
-        /* ----- Centered single-column feed ----- */
+        /* ----- Centered Single-Column Feed ----- */
         .feed {
-            max-width: 600px;
+            width: 100%;
+            max-width: 480px;
             margin: 0 auto;
             display: flex;
             flex-direction: column;
-            gap: 1.6rem;
+            gap: 1.25rem;
         }
 
         .post-card {
             background: #000;
-            border: 1px solid #262626;
-            border-radius: 10px;
+            border: 1px solid var(--ig-border, #262626);
+            border-radius: 12px;
             overflow: hidden;
         }
 
         .post-head {
             display: flex;
             align-items: center;
-            gap: .7rem;
-            padding: .8rem 1rem;
+            gap: .75rem;
+            padding: .75rem 1rem;
         }
 
         .post-head .avatar {
-            width: 38px;
-            height: 38px;
+            width: 36px;
+            height: 36px;
             border-radius: 50%;
             object-fit: cover;
-            border: 1px solid #262626;
+            border: 1px solid var(--ig-border, #262626);
+            flex-shrink: 0;
         }
 
         .post-head .username {
             font-weight: 600;
             color: #fafafa;
             font-size: 14px;
+            text-decoration: none;
         }
 
         .post-head .username:hover {
@@ -98,25 +124,35 @@
         .post-head .more {
             margin-inline-start: auto;
             color: #fafafa;
-            font-size: 22px;
+            font-size: 20px;
             line-height: 1;
             cursor: pointer;
-            padding: 0 .2rem;
+            padding: 4px;
+            opacity: .8;
+        }
+
+        .post-head .more:hover {
+            opacity: 1;
         }
 
         .post-media {
             background: #000;
-            border-top: 1px solid #262626;
-            border-bottom: 1px solid #262626;
+            border-top: 1px solid var(--ig-border, #262626);
+            border-bottom: 1px solid var(--ig-border, #262626);
+            position: relative;
+            width: 100%;
         }
 
         .post-media .lightSlider {
             background: #000;
+            margin: 0;
+            padding: 0;
         }
 
         .post-media .lSSlideOuter .lightSlider,
         .post-media .lSSlideOuter {
             border-radius: 0;
+            margin-bottom: 0 !important;
         }
 
         .post-media img {
@@ -130,19 +166,29 @@
             display: flex;
             align-items: center;
             gap: 1.1rem;
-            padding: .7rem 1rem .2rem;
+            padding: .75rem 1rem .25rem;
         }
 
         .act {
-            font-size: 24px;
+            font-size: 22px;
             cursor: pointer;
-            transition: transform .2s ease, opacity .2s ease;
+            transition: transform .18s ease, opacity .18s ease;
             line-height: 1;
             user-select: none;
+            display: inline-flex;
+            align-items: center;
+            color: #fafafa;
+            text-decoration: none;
         }
 
         .act:hover {
             opacity: .65;
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .act:active {
+            transform: scale(.88);
         }
 
         .act.liked {
@@ -160,16 +206,16 @@
         }
 
         .post-likes {
-            padding: .2rem 1rem 0;
+            padding: .35rem 1rem 0;
             color: #fafafa;
             font-weight: 600;
-            font-size: 14px;
+            font-size: 13.5px;
         }
 
         .post-caption {
-            padding: .4rem 1rem 1.1rem;
+            padding: .4rem 1rem 1rem;
             color: #ededed;
-            font-size: 14px;
+            font-size: 13.5px;
             line-height: 1.5;
             word-break: break-word;
         }
@@ -191,68 +237,116 @@
             color: #d6249f;
             opacity: .8;
         }
+
+        /* Mobile Adjustments (< 576px) -> Edge-to-edge */
+        @media (max-width: 575.98px) {
+            .feed-container {
+                gap: .75rem;
+            }
+
+            .story-bar-card {
+                border-radius: 0;
+                border-left: none;
+                border-right: none;
+                border-top: none;
+                padding: .6rem .2rem;
+                margin-bottom: 0;
+            }
+
+            .story {
+                width: 66px;
+            }
+
+            .story-ring {
+                width: 60px;
+                height: 60px;
+            }
+
+            .feed {
+                max-width: 100%;
+                gap: 1rem;
+            }
+
+            .post-card {
+                border-radius: 0;
+                border-left: none;
+                border-right: none;
+            }
+
+            .post-head,
+            .post-actions,
+            .post-likes,
+            .post-caption {
+                padding-left: .85rem;
+                padding-right: .85rem;
+            }
+        }
     </style>
 
-    {{-- Story / highlights bar --}}
-    <div class="story-bar">
-        <div class="story">
-            <div class="story-ring">
-                <img src="{{ asset('img/profile.jpg') }}" alt="">
+    <div class="feed-container">
+        {{-- Story / highlights bar --}}
+        <div class="story-bar-card">
+            <div class="story-bar">
+                <div class="story">
+                    <div class="story-ring">
+                        <img src="{{ asset('img/profile.jpg') }}" alt="">
+                    </div>
+                    <div class="story-name">استوری شما</div>
+                </div>
+                @foreach($posts as $post)
+                    <div class="story">
+                        <div class="story-ring">
+                            <img src="{{ asset('img/profile.jpg') }}" alt="">
+                        </div>
+                        <div class="story-name">{{ $post->user->username }}</div>
+                    </div>
+                @endforeach
             </div>
-            <div class="story-name">شما</div>
         </div>
-        @foreach($posts as $post)
-            <div class="story">
-                <div class="story-ring">
-                    <img src="{{ asset('img/profile.jpg') }}" alt="">
-                </div>
-                <div class="story-name">{{ $post->user->username }}</div>
-            </div>
-        @endforeach
-    </div>
 
-    {{-- Feed --}}
-    <div class="feed">
-        @forelse($posts as $post)
-            <div class="post-card">
-                <div class="post-head">
-                    <img class="avatar" src="{{ asset('img/profile.jpg') }}" alt="">
-                    <a href="{{ route('users.show', ['id' => $post->user->id]) }}" class="username">
-                        {{ $post->user->username }}
-                    </a>
-                    <span class="more">⋮</span>
-                </div>
+        {{-- Feed --}}
+        <div class="feed">
+            @forelse($posts as $post)
+                <article class="post-card">
+                    <div class="post-head">
+                        <img class="avatar" src="{{ asset('img/profile.jpg') }}" alt="">
+                        <a href="{{ route('users.show', ['id' => $post->user->id]) }}" class="username">
+                            {{ $post->user->username }}
+                        </a>
+                        <span class="more">⋮</span>
+                    </div>
 
-                <div class="post-media">
-                    <ul class="lightSlider">
-                        @foreach($post->media as $media)
-                            <li>
-                                <img src="{{ asset("storage/posts/$media->name") }}" alt="">
-                            </li>
-                        @endforeach
-                    </ul>
-                </div>
+                    <div class="post-media">
+                        <ul class="lightSlider">
+                            @foreach($post->media as $media)
+                                <li>
+                                    <img src="{{ asset("storage/posts/$media->name") }}" alt="">
+                                </li>
+                            @endforeach
+                        </ul>
+                    </div>
 
-                <div class="post-actions">
-                    <span class="act like-btn">🤍</span>
-                    <a href="#" class="act comment-btn">💬</a>
-                    <span class="act share-btn">📨</span>
-                    <span class="act save save-btn">🔖</span>
-                </div>
+                    <div class="post-actions">
+                        <span class="act like-btn" title="پسندیدن">🤍</span>
+                        <a href="#" class="act comment-btn" title="نظر">💬</a>
+                        <span class="act share-btn" title="ارسال">📨</span>
+                        <span class="act save save-btn" title="ذخیره">🔖</span>
+                    </div>
 
-                <div class="post-likes">{{ count($post->media) > 0 ? '۱٬۲۳۴' : '۰' }} لایک</div>
+                    <div class="post-likes">{{ count($post->media) > 0 ? '۱٬۲۳۴' : '۰' }} پسند</div>
 
-                <div class="post-caption">
-                    <span class="username-inline">{{ $post->user->username }}</span>
-                    {{ $post->content }}
+                    <div class="post-caption">
+                        <span class="username-inline">{{ $post->user->username }}</span>
+                        {{ $post->content }}
+                    </div>
+                </article>
+            @empty
+                <div class="empty-feed">
+                    <span class="fe fe-inbox"></span>
+                    <p class="mt-3 mb-0">هنوز پستی منتشر نشده است.</p>
                 </div>
-            </div>
-        @empty
-            <div class="empty-feed">
-                <span class="fe fe-inbox"></span>
-                <p class="mt-3 mb-0">هنوز پستی منتشر نشده است.</p>
-            </div>
-        @endforelse
+            @endforelse
+        </div>
     </div>
 
 @endsection
