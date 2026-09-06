@@ -58,4 +58,9 @@ class User extends Authenticatable
             'follower_id')
             ->withTimestamps();
     }
+
+    public function stories() : HasMany
+    {
+        return $this->hasMany(Story::class);
+    }
 }

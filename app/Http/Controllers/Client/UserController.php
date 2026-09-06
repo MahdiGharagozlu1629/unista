@@ -27,7 +27,9 @@ class UserController extends Controller
             $post->media = $media;
         }
 
-        return view('Client::profile', compact('user'));
+        $hasActiveStory = $user->stories()->where('created_at', '>=', now()->subDay())->exists();
+
+        return view('Client::profile', compact('user', 'hasActiveStory'));
     }
 
     public function show($id)
@@ -49,8 +51,9 @@ class UserController extends Controller
         $currentUser = Auth::user();
 
         $hasFollowing = $currentUser->following()->where('following_id' , $user->id)->exists();
+        $hasActiveStory = $user->stories()->where('created_at', '>=', now()->subDay())->exists();
 
-        return view('Client::user.index', compact('user' , 'hasFollowing'));
+        return view('Client::user.index', compact('user' , 'hasFollowing', 'hasActiveStory'));
     }
 
     public function follow(Request $request)

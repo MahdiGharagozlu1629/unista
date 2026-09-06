@@ -12,7 +12,13 @@
             <div class="d-md-none">
                 <div class="profile-top-mobile">
                     <div class="avatar-wrap">
-                        <img class="profile-avatar" src="{{ asset('img/profile.jpg') }}" alt="{{ $user->username }}">
+                        @if(!empty($hasActiveStory) && $hasActiveStory)
+                            <a href="{{ route('story.show', ['userId' => $user->id]) }}" class="story-ring has-story d-inline-block" style="width: 82px; height: 82px; padding: 2.5px;" title="مشاهده استوری">
+                                <img class="profile-avatar" src="{{ asset('img/profile.jpg') }}" alt="{{ $user->username }}" style="width: 100%; height: 100%;">
+                            </a>
+                        @else
+                            <img class="profile-avatar" src="{{ asset('img/profile.jpg') }}" alt="{{ $user->username }}">
+                        @endif
                     </div>
                     <div class="profile-stats-mobile">
                         <div class="stat">
@@ -49,7 +55,13 @@
 
             {{-- Desktop Layout (>= 768px) --}}
             <div class="avatar-wrap d-none d-md-flex">
-                <img class="profile-avatar" src="{{ asset('img/profile.jpg') }}" alt="{{ $user->username }}">
+                @if(!empty($hasActiveStory) && $hasActiveStory)
+                    <a href="{{ route('story.show', ['userId' => $user->id]) }}" class="story-ring has-story d-inline-block" style="width: 148px; height: 148px; padding: 3.5px;" title="مشاهده استوری">
+                        <img class="profile-avatar" src="{{ asset('img/profile.jpg') }}" alt="{{ $user->username }}" style="width: 100%; height: 100%;">
+                    </a>
+                @else
+                    <img class="profile-avatar" src="{{ asset('img/profile.jpg') }}" alt="{{ $user->username }}">
+                @endif
             </div>
 
             <div class="profile-info d-none d-md-flex">
