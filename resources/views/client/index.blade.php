@@ -46,7 +46,13 @@
                         <a href="{{ route('users.show', ['id' => $post->user->id]) }}" class="username">
                             {{ $post->user->username }}
                         </a>
-                        <span class="more">⋮</span>
+                        <button type="button" class="more" title="گزینه‌ها">
+                            <svg aria-label="گزینه‌ها" fill="currentColor" height="20" role="img" viewBox="0 0 24 24" width="20">
+                                <circle cx="12" cy="12" r="2"></circle>
+                                <circle cx="6" cy="12" r="2"></circle>
+                                <circle cx="18" cy="12" r="2"></circle>
+                            </svg>
+                        </button>
                     </div>
 
                     <div class="post-media">
@@ -60,10 +66,31 @@
                     </div>
 
                     <div class="post-actions">
-                        <span class="act like-btn" title="پسندیدن">🤍</span>
-                        <a href="#" class="act comment-btn" title="نظر">💬</a>
-                        <span class="act share-btn" title="ارسال">📨</span>
-                        <span class="act save save-btn" title="ذخیره">🔖</span>
+                        <button type="button" class="act like-btn" title="پسندیدن">
+                            <svg class="post-icon icon-heart" aria-label="پسندیدن" fill="none" height="24" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                            </svg>
+                            <svg class="post-icon icon-heart-filled" aria-label="نپسندیدن" fill="#ed4956" height="24" stroke="#ed4956" stroke-width="0" viewBox="0 0 24 24" width="24" style="display: none;">
+                                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"></path>
+                            </svg>
+                        </button>
+
+                        @if($post->have_comment)
+                            <a href="{{ route('post.comments', ['postId' => $post->id]) }}" class="act comment-btn" title="نظر">
+                                <svg class="post-icon icon-comment" aria-label="نظر" fill="none" height="24" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+                                </svg>
+                            </a>
+                        @endif
+
+                        <button type="button" class="act save save-btn" title="ذخیره">
+                            <svg class="post-icon icon-save" aria-label="ذخیره" fill="none" height="24" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
+                            </svg>
+                            <svg class="post-icon icon-save-filled" aria-label="حذف از ذخیره‌ها" fill="currentColor" height="24" stroke="currentColor" stroke-width="0" viewBox="0 0 24 24" width="24" style="display: none;">
+                                <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
+                            </svg>
+                        </button>
                     </div>
 
                     <div class="post-likes">{{ count($post->media) > 0 ? '۱٬۲۳۴' : '۰' }} پسند</div>
@@ -72,6 +99,18 @@
                         <span class="username-inline">{{ $post->user->username }}</span>
                         {{ $post->content }}
                     </div>
+
+                    @if($post->have_comment)
+                        <div class="px-3 pb-3">
+                            <a href="{{ route('post.comments', ['postId' => $post->id]) }}" class="text-muted" style="font-size: 13px; text-decoration: none; font-weight: 500;">
+                                @if(isset($post->comments) && count($post->comments) > 0)
+                                    مشاهده همه {{ count($post->comments) }} نظر
+                                @else
+                                    افزودن نظر...
+                                @endif
+                            </a>
+                        </div>
+                    @endif
                 </article>
             @empty
                 <div class="empty-feed">
@@ -174,15 +213,31 @@
             });
         });
 
-        // Like / unlike toggle
+        // Post Actions (Like, Save, Double click to like)
         $(document).ready(function () {
+            // Like button toggle
             $("body").on("click", ".like-btn", function () {
                 var $btn = $(this);
+                $btn.toggleClass("is-liked");
                 if ($btn.hasClass("is-liked")) {
-                    $btn.removeClass("is-liked").text("🤍");
-                } else {
-                    $btn.addClass("is-liked liked").text("❤️");
+                    $btn.addClass("liked");
                     setTimeout(function () { $btn.removeClass("liked"); }, 350);
+                }
+            });
+
+            // Save / bookmark button toggle
+            $("body").on("click", ".save-btn", function () {
+                var $btn = $(this);
+                $btn.toggleClass("is-saved");
+            });
+
+            // Double click / tap on post media to like
+            $("body").on("dblclick", ".post-media", function () {
+                var $card = $(this).closest(".post-card");
+                var $likeBtn = $card.find(".like-btn");
+                if (!$likeBtn.hasClass("is-liked")) {
+                    $likeBtn.addClass("is-liked liked");
+                    setTimeout(function () { $likeBtn.removeClass("liked"); }, 350);
                 }
             });
         });

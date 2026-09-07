@@ -106,15 +106,14 @@ class HomeController extends Controller
         }
 
         // 3. Posts
-        $postUserIds = array_unique(array_merge([$user->id], $followingIds));
         $posts = Post::query()
-            ->whereIn('user_id', $postUserIds)
-            ->with('user')
+            ->whereIn('user_id', $followingIds)
+            ->with(['user', 'comments'])
             ->latest()
             ->get();
 
         if ($posts->isEmpty()) {
-            $posts = Post::with('user')->latest()->take(20)->get();
+            $posts = Post::with(['user', 'comments'])->latest()->take(20)->get();
         }
 
         foreach ($posts as $post) {
