@@ -28,4 +28,14 @@ class Post extends Model
     {
         return $this->hasMany(Comment::class);
     }
+
+    public function likes() : HasMany
+    {
+        return $this->hasMany(PostAction::class)->where('type', PostAction::LIKE);
+    }
+
+    public function saves() : HasMany
+    {
+        return $this->hasMany(PostAction::class)->where('type', PostAction::SAVE);
+    }
 }

@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\Post;
 use App\Models\Media;
 use App\Models\Story;
+use App\Models\PostAction;
 use Illuminate\Http\Request;
 use App\Enums\FollowStatusEnum;
 
@@ -108,15 +109,18 @@ class HomeController extends Controller
         // 3. Posts
         $posts = Post::query()
             ->whereIn('user_id', $followingIds)
-            ->with(['user', 'comments'])
+            ->with(['user', 'comments', 'likes', 'saves'])
             ->latest()
             ->get();
 
         if ($posts->isEmpty()) {
-            $posts = Post::with(['user', 'comments'])->latest()->take(20)->get();
+            $posts = Post::with(['user', 'comments', 'likes', 'saves'])->latest()->take(20)->get();
         }
 
         foreach ($posts as $post) {
+            $post->liked = $user->id ? $post->likes->contains('user_id', $user->id) : false;
+            $post->saved = $user->id ? $post->saves->contains('user_id', $user->id) : false;
+
             $mediaIds = json_decode($post->media, true);
             if (!empty($mediaIds)) {
                 $post->media = Media::query()

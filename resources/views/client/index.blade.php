@@ -8,7 +8,7 @@
         <div class="story-bar-card">
             <div class="story-bar">
                 {{-- Current User Story --}}
-                <div class="story my-story" data-user-id="{{ auth()->id() }}" @if(!empty($myStories) && $myStories->isNotEmpty()) onclick="openStoryViewer({{ auth()->id() }})" @endif>
+                <div class="story my-story" data-user-id="{{ auth('client')->id() ?? auth()->id() }}" @if(!empty($myStories) && $myStories->isNotEmpty()) onclick="openStoryViewer({{ auth('client')->id() ?? auth()->id() }})" @endif>
                     <div class="story-ring position-relative {{ (!empty($myStories) && $myStories->isNotEmpty()) ? 'has-story' : 'no-story' }}" title="{{ (!empty($myStories) && $myStories->isNotEmpty()) ? 'مشاهده استوری شما' : 'افزودن استوری' }}">
                         <img src="{{ asset('img/profile.jpg') }}" alt="استوری شما">
                         <a href="{{ route('add.story') }}" class="add-story" title="افزودن استوری" onclick="event.stopPropagation();">
@@ -55,22 +55,24 @@
                         </button>
                     </div>
 
-                    <div class="post-media">
-                        <ul class="lightSlider">
-                            @foreach($post->media as $media)
-                                <li>
-                                    <img src="{{ asset("storage/posts/$media->name") }}" alt="">
-                                </li>
-                            @endforeach
-                        </ul>
-                    </div>
+                    @if(isset($post->media) && count($post->media) > 0)
+                        <div class="post-media">
+                            <ul class="lightSlider">
+                                @foreach($post->media as $media)
+                                    <li>
+                                        <img src="{{ asset("storage/posts/$media->name") }}" alt="">
+                                    </li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
 
                     <div class="post-actions">
-                        <button type="button" class="act like-btn" title="پسندیدن">
+                        <button type="button" class="act like-btn {{ !empty($post->liked) && $post->liked ? 'is-liked' : '' }}" data-post-id="{{ $post->id }}" title="{{ !empty($post->liked) && $post->liked ? 'نپسندیدن' : 'پسندیدن' }}">
                             <svg class="post-icon icon-heart" aria-label="پسندیدن" fill="none" height="24" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="24">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
                             </svg>
-                            <svg class="post-icon icon-heart-filled" aria-label="نپسندیدن" fill="#ed4956" height="24" stroke="#ed4956" stroke-width="0" viewBox="0 0 24 24" width="24" style="display: none;">
+                            <svg class="post-icon icon-heart-filled" aria-label="نپسندیدن" fill="#ed4956" height="24" stroke="#ed4956" stroke-width="0" viewBox="0 0 24 24" width="24">
                                 <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"></path>
                             </svg>
                         </button>
@@ -83,17 +85,22 @@
                             </a>
                         @endif
 
-                        <button type="button" class="act save save-btn" title="ذخیره">
+                        <button type="button" class="act save save-btn {{ !empty($post->saved) && $post->saved ? 'is-saved' : '' }}" data-post-id="{{ $post->id }}" title="{{ !empty($post->saved) && $post->saved ? 'حذف از ذخیره‌ها' : 'ذخیره' }}">
                             <svg class="post-icon icon-save" aria-label="ذخیره" fill="none" height="24" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="24">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
                             </svg>
-                            <svg class="post-icon icon-save-filled" aria-label="حذف از ذخیره‌ها" fill="currentColor" height="24" stroke="currentColor" stroke-width="0" viewBox="0 0 24 24" width="24" style="display: none;">
+                            <svg class="post-icon icon-save-filled" aria-label="حذف از ذخیره‌ها" fill="currentColor" height="24" stroke="currentColor" stroke-width="0" viewBox="0 0 24 24" width="24">
                                 <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
                             </svg>
                         </button>
                     </div>
 
-                    <div class="post-likes">{{ count($post->media) > 0 ? '۱٬۲۳۴' : '۰' }} پسند</div>
+                    <div class="post-likes">
+                        <span class="post-likes-count" data-count="{{ $post->likes ? $post->likes->count() : 0 }}">
+                            {{ $post->likes && $post->likes->count() > 0 ? number_format($post->likes->count()) : '۰' }}
+                        </span>
+                        پسند
+                    </div>
 
                     <div class="post-caption">
                         <span class="username-inline">{{ $post->user->username }}</span>
@@ -211,24 +218,87 @@
                 freeMove: true,
                 swipeThreshold: 40
             });
-        });
 
-        // Post Actions (Like, Save, Double click to like)
-        $(document).ready(function () {
-            // Like button toggle
-            $("body").on("click", ".like-btn", function () {
-                var $btn = $(this);
-                $btn.toggleClass("is-liked");
-                if ($btn.hasClass("is-liked")) {
-                    $btn.addClass("liked");
-                    setTimeout(function () { $btn.removeClass("liked"); }, 350);
+            // Like / Dislike Toggle & AJAX
+            $("body").on("click", ".like-btn", function (e) {
+                e.preventDefault();
+                var postId = $(this).data("post-id");
+                if (!postId) return;
+
+                var isLiked = $(this).hasClass("is-liked");
+                var url = isLiked ? '{{ route("dislike.post") }}' : '{{ route("like.post") }}';
+                var method = isLiked ? 'DELETE' : 'POST';
+
+                // Optimistic UI update
+                if (isLiked) {
+                    $(this).removeClass("is-liked liked");
+                    $(this).attr("title", "پسندیدن");
+                } else {
+                    $(this).addClass("is-liked liked");
+                    $(this).attr("title", "نپسندیدن");
+                    setTimeout(function () { $(this).removeClass("liked"); }, 350);
                 }
+
+                // Update like count display
+                var $card = $(this).closest(".post-card");
+                var $likesCountEl = $card.find(".post-likes-count");
+                var currentCount = 0;
+                if ($likesCountEl.length) {
+                    currentCount = parseInt($likesCountEl.data("count")) || 0;
+                    var newCount = isLiked ? Math.max(0, currentCount - 1) : currentCount + 1;
+                    $likesCountEl.data("count", newCount).text(newCount > 0 ? newCount.toLocaleString('fa-IR') : '۰');
+                }
+
+                $.ajax({
+                    url: url,
+                    type: method,
+                    data: {
+                        'post_id': postId,
+                        '_token': '{{ csrf_token() }}'
+                    },
+                    dataType: 'json',
+                    error: function () {
+                        // Revert on error
+                        $(this).toggleClass("is-liked");
+                        if ($likesCountEl.length) {
+                            $likesCountEl.data("count", currentCount).text(currentCount > 0 ? currentCount.toLocaleString('fa-IR') : '۰');
+                        }
+                    }
+                });
             });
 
-            // Save / bookmark button toggle
-            $("body").on("click", ".save-btn", function () {
-                var $btn = $(this);
-                $btn.toggleClass("is-saved");
+            // Save / Unsave Toggle & AJAX
+            $("body").on("click", ".save-btn", function (e) {
+                e.preventDefault();
+                var postId = $(this).data("post-id");
+                if (!postId) return;
+
+                var isSaved = $(this).hasClass("is-saved");
+                var url = isSaved ? '{{ route("remove.save") }}' : '{{ route("save.post") }}';
+                var method = isSaved ? 'DELETE' : 'POST';
+
+                if (isSaved) {
+                    $(this).removeClass("is-saved saved");
+                    $(this).attr("title", "ذخیره");
+                } else {
+                    $(this).addClass("is-saved saved");
+                    $(this).attr("title", "حذف از ذخیره‌ها");
+                    setTimeout(function () { $(this).removeClass("saved"); }, 350);
+                }
+
+                $.ajax({
+                    url: url,
+                    type: method,
+                    data: {
+                        'post_id': postId,
+                        '_token': '{{ csrf_token() }}'
+                    },
+                    dataType: 'json',
+                    error: function () {
+                        // Revert on error
+                        $(this).toggleClass("is-saved");
+                    }
+                });
             });
 
             // Double click / tap on post media to like
@@ -236,7 +306,9 @@
                 var $card = $(this).closest(".post-card");
                 var $likeBtn = $card.find(".like-btn");
                 if (!$likeBtn.hasClass("is-liked")) {
-                    $likeBtn.addClass("is-liked liked");
+                    $likeBtn.trigger("click");
+                } else {
+                    $likeBtn.addClass("liked");
                     setTimeout(function () { $likeBtn.removeClass("liked"); }, 350);
                 }
             });

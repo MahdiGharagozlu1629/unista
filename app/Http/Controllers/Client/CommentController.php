@@ -13,12 +13,17 @@ class CommentController extends Controller
 {
     public function postComments($postId)
     {
+        $currentUserId = Auth::guard('client')->id() ?? Auth::id();
+
         $post = Post::query()
             ->where('id', $postId)
-            ->with(['user', 'comments' => function ($q) {
+            ->with(['user', 'likes', 'saves', 'comments' => function ($q) {
                 $q->latest();
             }, 'comments.user'])
             ->firstOrFail();
+
+        $post->liked = $currentUserId ? $post->likes->contains('user_id', $currentUserId) : false;
+        $post->saved = $currentUserId ? $post->saves->contains('user_id', $currentUserId) : false;
 
         $mediaIds = json_decode($post->media, true);
 

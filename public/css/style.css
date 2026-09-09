@@ -610,13 +610,28 @@ body {
     transform: scale(.88);
 }
 
+.act.like-btn svg.icon-heart {
+    display: block;
+}
+
+.act.like-btn svg.icon-heart-filled {
+    display: none !important;
+}
+
 .act.like-btn.is-liked svg.icon-heart {
     display: none !important;
 }
 
 .act.like-btn.is-liked svg.icon-heart-filled {
     display: block !important;
-    animation: ig-pop .35s ease;
+}
+
+.act.save-btn svg.icon-save {
+    display: block;
+}
+
+.act.save-btn svg.icon-save-filled {
+    display: none !important;
 }
 
 .act.save-btn.is-saved svg.icon-save {
@@ -625,11 +640,11 @@ body {
 
 .act.save-btn.is-saved svg.icon-save-filled {
     display: block !important;
-    animation: ig-pop .35s ease;
 }
 
-.act.liked {
-    animation: ig-pop .35s ease;
+.act.liked svg.icon-heart-filled,
+.act.saved svg.icon-save-filled {
+    animation: ig-pop .35s cubic-bezier(0.17, 0.89, 0.32, 1.49);
 }
 
 @keyframes ig-pop {
