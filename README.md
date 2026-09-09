@@ -128,7 +128,7 @@ Coming soon...
 - [x] User Profiles
 - [x] Posts
 - [x] Follow System
-- [x] Search
+- [x] Search 
 - [x] Explore Page
 - [ ] Notifications
 - [ ] Real-time Chat
