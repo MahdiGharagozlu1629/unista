@@ -50,6 +50,10 @@
                         <i class="fe fe-edit-2"></i>
                         ویرایش پروفایل
                     </a>
+                    <a href="{{route("saved.posts")}}" class="ig-btn ig-btn-dark">
+                        <i class="fe fe-bookmark"></i>
+                        پست های ذخیره شده
+                    </a>
                 </div>
             </div>
 
@@ -75,6 +79,10 @@
                         <a href="#" class="ig-btn ig-btn-dark">
                             <i class="fe fe-edit-2"></i>
                             ویرایش پروفایل
+                        </a>
+                        <a href="{{route("saved.posts")}}" class="ig-btn ig-btn-dark">
+                            <i class="fe fe-bookmark"></i>
+                            پست های ذخیره شده
                         </a>
                     </div>
                 </div>

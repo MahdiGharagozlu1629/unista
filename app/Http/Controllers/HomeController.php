@@ -113,10 +113,6 @@ class HomeController extends Controller
             ->latest()
             ->get();
 
-        if ($posts->isEmpty()) {
-            $posts = Post::with(['user', 'comments', 'likes', 'saves'])->latest()->take(20)->get();
-        }
-
         foreach ($posts as $post) {
             $post->liked = $user->id ? $post->likes->contains('user_id', $user->id) : false;
             $post->saved = $user->id ? $post->saves->contains('user_id', $user->id) : false;

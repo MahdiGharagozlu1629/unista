@@ -55,6 +55,9 @@ Route::group(['middleware' => ['web' , 'auth:client']], function () {
     Route::delete('dislike' , [ClientPostActionController::class , 'dislike'])->name('dislike.post');
     Route::delete('removeSave' , [ClientPostActionController::class , 'removeSave'])->name('remove.save');
 
+    /* Profile */
+    Route::get('saved-posts' , [ClientUserController::class , 'savedPosts'])->name('saved.posts');
+
     /* Media */
     Route::post('media/create' , [MediaController::class , 'create'])->name('media.create');
     Route::post('media/story' , [MediaController::class , 'story'])->name('media.story');

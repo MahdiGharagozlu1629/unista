@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Client;
 use App\Enums\FollowStatusEnum;
 use App\Http\Controllers\Controller;
 use App\Models\Media;
+use App\Models\Post;
+use App\Models\PostAction;
 use App\Models\User;
 use App\Models\UserFollow;
 use Illuminate\Http\Request;
@@ -29,7 +31,7 @@ class UserController extends Controller
 
         $hasActiveStory = $user->stories()->where('created_at', '>=', now()->subDay())->exists();
 
-        return view('Client::profile', compact('user', 'hasActiveStory'));
+        return view('Client::profile.profile', compact('user', 'hasActiveStory'));
     }
 
     public function show($id)
@@ -118,5 +120,33 @@ class UserController extends Controller
             'success' => true
         ]);
 
+    }
+
+    public function savedPosts()
+    {
+        $userId = Auth::id();
+
+        $postIds = PostAction::query()
+            ->where('user_id' , $userId)
+            ->where('type' , PostAction::SAVE)
+            ->pluck('post_id')
+            ->toArray();
+
+        $posts = Post::query()
+            ->whereIn('id' , $postIds)
+            ->with('user')
+            ->get();
+
+        foreach ($posts as $post) {
+            $mediaIds = json_decode($post->media, true);
+            $media = Media::query()
+                ->whereIn('id' , $mediaIds)
+                ->select('media.name')
+                ->first();
+
+            $post->media = $media;
+        }
+
+        return view('Client::profile.saved-posts', compact('posts'));
     }
 }
