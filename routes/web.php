@@ -22,7 +22,7 @@ use App\Http\Controllers\Client\PostActionController as ClientPostActionControll
 |
 */
 
-Route::group(['middleware' => ['web' , 'auth:client']], function () {
+Route::group(['middleware' => ['web' , 'auth.client']], function () {
 
     Route::get('/', [HomeController::class, 'index'])->name('index');
     Route::get('profile' , [ClientUserController::class , 'profile'])->name('profile');
@@ -71,7 +71,7 @@ Route::prefix('admin')->middleware(['web' , 'auth:web'])->group(function () {
     Route::resource('users' , UserController::class)->names('user');
 });
 
-Route::get('login' , [LoginController::class, 'index'])->name('login');
+Route::get('login' , [LoginController::class, 'index'])->name('adminLogin');
 Route::get('clientLogin' , [LoginController::class, 'clientLogin'])->name('login');
 Route::post('loginToClient' , [LoginController::class, 'loginToClient'])->name('loginToClient');
 Route::post('loginToPanel' , [LoginController::class, 'login'])->name('loginToPanel');
