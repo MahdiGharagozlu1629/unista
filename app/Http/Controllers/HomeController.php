@@ -14,7 +14,7 @@ class HomeController extends Controller
 {
     public function index(Request $request)
     {
-        $user = auth('client')->user() ?? auth()->user();
+        $user = auth('client')->user() ?? auth()->guard('client')->user();
 
         // 1. Followings
         $followings = $user
@@ -136,7 +136,7 @@ class HomeController extends Controller
     public function search(Request $request)
     {
         $query = trim((string)$request->input('q', ''));
-        $currentUserId = auth('client')->id() ?? auth()->id();
+        $currentUserId = auth('client')->id() ?? auth()->guard('client')->id();
 
         $ignoreIds = [$currentUserId, 1];
         $users = null;

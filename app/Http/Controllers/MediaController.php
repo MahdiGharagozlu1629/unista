@@ -15,7 +15,7 @@ class MediaController extends Controller
         $filename = Str::random(10) . '.' . $file->getClientOriginalExtension();
         $path = $file->storeAs("public/posts", $filename);
         $media = Media::create([
-            'user_id' => auth()->id(),
+            'user_id' => auth()->guard('client')->id(),
             'name' => $filename,
             'type' => $file->getClientOriginalExtension(),
             'path' => 'posts'
@@ -32,7 +32,7 @@ class MediaController extends Controller
         $filename = Str::random(10) . '.' . $file->getClientOriginalExtension();
         $path = $file->storeAs("public/story", $filename);
         $media = Media::create([
-            'user_id' => auth()->id(),
+            'user_id' => auth()->guard('client')->id(),
             'name' => $filename,
             'type' => $file->getClientOriginalExtension(),
             'path' => 'story'

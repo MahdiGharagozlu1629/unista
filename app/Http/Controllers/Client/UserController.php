@@ -16,7 +16,7 @@ class UserController extends Controller
 {
     public function profile()
     {
-        $user = Auth::user();
+        $user = Auth::guard('client')->user();
         $user['posts'] = $user->posts;
 
         foreach ($user->posts as $post) {
@@ -50,7 +50,7 @@ class UserController extends Controller
             $post->media = $media;
         }
 
-        $currentUser = Auth::user();
+        $currentUser = Auth::guard('client')->user();
 
         $hasFollowing = $currentUser->following()->where('following_id' , $user->id)->exists();
         $hasActiveStory = $user->stories()->where('created_at', '>=', now()->subDay())->exists();
@@ -60,7 +60,7 @@ class UserController extends Controller
 
     public function follow(Request $request)
     {
-        $followerId = Auth::id();
+        $followerId = Auth::guard('client')->id();
         $followingId = $request->following_id;
 
         /**
@@ -77,7 +77,7 @@ class UserController extends Controller
 
     public function unfollow(Request $request)
     {
-        $followerId = Auth::id();
+        $followerId = Auth::guard('client')->id();
         $followingId = $request->following_id;
 
         /**
@@ -94,7 +94,7 @@ class UserController extends Controller
 
     public function followRequests()
     {
-        $user = Auth::user();
+        $user = Auth::guard('client')->user();
 
         $requests = UserFollow::query()
             ->where('user_follows.following_id' , $user->id)
@@ -124,7 +124,7 @@ class UserController extends Controller
 
     public function savedPosts()
     {
-        $userId = Auth::id();
+        $userId = Auth::guard('client')->id();
 
         $postIds = PostAction::query()
             ->where('user_id' , $userId)

@@ -119,7 +119,7 @@
                                 </div>
                                 <div class="comment-meta">
                                     <span>{{ $comment->created_at ? $comment->created_at->diffForHumans() : 'چند لحظه پیش' }}</span>
-                                    @if(auth()->id() == $comment->user_id || auth()->id() == $post->user_id)
+                                    @if(auth()->guard('client')->id() == $comment->user_id || auth()->guard('client')->id() == $post->user_id)
                                         <button type="button" class="comment-delete-btn" data-url="{{ route('comment.destroy', ['id' => $comment->id]) }}">
                                             حذف
                                         </button>
@@ -151,7 +151,7 @@
                                 name="text"
                                 id="commentInput"
                                 class="comment-input"
-                                placeholder="افزودن نظر به عنوان {{ auth()->user()->username }}..."
+                                placeholder="افزودن نظر به عنوان {{ auth()->guard('client')->user()->username }}..."
                                 autocomplete="off"
                                 required
                             >

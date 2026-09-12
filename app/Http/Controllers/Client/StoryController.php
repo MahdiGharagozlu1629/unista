@@ -25,7 +25,7 @@ class StoryController extends Controller
         $data = [];
         foreach ($media as $file) {
             $data[] = [
-                'user_id' => Auth::id(),
+                'user_id' => Auth::guard('client')->id(),
                 'media' => $file,
                 'created_at' => now(),
                 'updated_at' => now()
@@ -39,14 +39,14 @@ class StoryController extends Controller
 
     public function show($userId = null)
     {
-        $targetUserId = $userId ?: Auth::id();
+        $targetUserId = $userId ?: Auth::guard('client')->id();
         return redirect()->route('index', ['open_story' => $targetUserId]);
     }
 
     public function destroy($id)
     {
         $story = Story::where('id', $id)
-            ->where('user_id', Auth::id())
+            ->where('user_id', Auth::guard('client')->id())
             ->first();
 
         if ($story) {

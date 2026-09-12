@@ -16,7 +16,7 @@ class PostController extends Controller
     public function store(Request $request)
     {
         Post::create([
-            'user_id' => auth()->id(),
+            'user_id' => auth()->guard('client')->id(),
             'content' => $request->input('content'),
             'have_comment' => $request->input('have_comment' , false),
             'media' => json_encode($request->media),

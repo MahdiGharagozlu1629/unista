@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth;
 
 class ClientAuthenticate
 {
-    public function handle(Request $request, Closure $next): \Illuminate\Http\RedirectResponse
+    public function handle(Request $request, Closure $next)
     {
         if (!Auth::guard('client')->check()) {
             return redirect()->route('login');
