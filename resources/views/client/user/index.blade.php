@@ -61,7 +61,7 @@
                             </button>
                         </form>
                     @endif
-                    <a class="ig-btn ig-btn-message" href="#">
+                    <a class="ig-btn ig-btn-message" href="{{ route('chat.start', ['userId' => $user->id]) }}">
                         <i class="fe fe-message-square"></i>
                         پیام
                     </a>
@@ -102,7 +102,7 @@
                                 </button>
                             </form>
                         @endif
-                        <a class="ig-btn ig-btn-message" href="#">
+                        <a class="ig-btn ig-btn-message" href="{{ route('chat.start', ['userId' => $user->id]) }}">
                             <i class="fe fe-message-square"></i>
                             پیام
                         </a>

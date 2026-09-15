@@ -89,6 +89,30 @@
                         <span class="ml-3 item-text">کاربران</span>
                     </a>
                 </li>
+                <li class="nav-item w-100">
+                    <a class="nav-link" href="{{route("admin.posts.index")}}">
+                        <i class="fe fe-image fe-16"></i>
+                        <span class="ml-3 item-text">پست‌ها</span>
+                    </a>
+                </li>
+                <li class="nav-item w-100">
+                    <a class="nav-link" href="{{route("admin.stories.index")}}">
+                        <i class="fe fe-play-circle fe-16"></i>
+                        <span class="ml-3 item-text">استوری‌ها</span>
+                    </a>
+                </li>
+                <li class="nav-item w-100">
+                    <a class="nav-link" href="{{route("admin.comments.index")}}">
+                        <i class="fe fe-message-square fe-16"></i>
+                        <span class="ml-3 item-text">دیدگاه‌ها</span>
+                    </a>
+                </li>
+                <li class="nav-item w-100">
+                    <a class="nav-link" href="{{route("admin.chats.index")}}">
+                        <i class="fe fe-send fe-16"></i>
+                        <span class="ml-3 item-text">چت‌ها</span>
+                    </a>
+                </li>
             </ul>
 
         </nav>

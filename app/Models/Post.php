@@ -38,4 +38,18 @@ class Post extends Model
     {
         return $this->hasMany(PostAction::class)->where('type', PostAction::SAVE);
     }
+
+    public function getMediaItemsAttribute()
+    {
+        $ids = json_decode($this->media, true);
+        if (!empty($ids) && is_array($ids)) {
+            return Media::whereIn('id', $ids)->get();
+        }
+        return collect();
+    }
+
+    public function getFirstMediaAttribute()
+    {
+        return $this->media_items->first();
+    }
 }

@@ -63,4 +63,22 @@ class User extends Authenticatable
     {
         return $this->hasMany(Story::class);
     }
+
+    public function conversations()
+    {
+        return Conversation::query()
+            ->where('user_one_id', $this->id)
+            ->orWhere('user_two_id', $this->id)
+            ->orderBy('last_message_at', 'desc');
+    }
+
+    public function sentMessages(): HasMany
+    {
+        return $this->hasMany(Message::class, 'sender_id');
+    }
+
+    public function receivedMessages(): HasMany
+    {
+        return $this->hasMany(Message::class, 'receiver_id');
+    }
 }

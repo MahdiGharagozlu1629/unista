@@ -56,6 +56,12 @@
                 </a>
             </li>
             <li>
+                <a href="{{ route('chat.index') }}" class="sidebar-item {{ request()->routeIs('chat.*') ? 'active' : '' }}">
+                    <span class="fe fe-send"></span>
+                    <span class="sidebar-title">پیام‌ها</span>
+                </a>
+            </li>
+            <li>
                 <a href="{{ route('post.create') }}" class="sidebar-item {{ request()->routeIs('post.create') ? 'active' : '' }}">
                     <span class="sidebar-icon"><span class="nav-create"></span></span>
                     <span class="sidebar-title">ایجاد پست</span>
@@ -92,7 +98,7 @@
             <a href="{{ route('follow.requests') }}" title="درخواست‌ها">
                 <span class="fe fe-heart"></span>
             </a>
-            <a href="#" title="پیام‌ها">
+            <a href="{{ route('chat.index') }}" title="پیام‌ها" class="{{ request()->routeIs('chat.*') ? 'active' : '' }}">
                 <span class="fe fe-send"></span>
             </a>
         </div>

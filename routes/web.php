@@ -6,11 +6,16 @@ use App\Http\Controllers\MediaController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\IndexController;
 use App\Http\Controllers\Admin\LoginController;
+use App\Http\Controllers\Admin\PostController as AdminPostController;
+use App\Http\Controllers\Admin\StoryController as AdminStoryController;
+use App\Http\Controllers\Admin\CommentController as AdminCommentController;
+use App\Http\Controllers\Admin\ChatController as AdminChatController;
 use App\Http\Controllers\Client\UserController as ClientUserController;
 use App\Http\Controllers\Client\PostController as ClientPostController;
 use App\Http\Controllers\Client\StoryController as ClientStoryController;
 use App\Http\Controllers\Client\CommentController as ClientCommentController;
 use App\Http\Controllers\Client\PostActionController as ClientPostActionController;
+use App\Http\Controllers\Client\ChatController as ClientChatController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -58,6 +63,14 @@ Route::group(['middleware' => ['web' , 'auth.client']], function () {
     /* Profile */
     Route::get('saved-posts' , [ClientUserController::class , 'savedPosts'])->name('saved.posts');
 
+    /* Direct / Chat */
+    Route::get('direct/{conversationId?}', [ClientChatController::class, 'index'])->name('chat.index');
+    Route::get('direct/show/{conversationId}', [ClientChatController::class, 'index'])->name('chat.show');
+    Route::get('direct/messages/{conversationId}', [ClientChatController::class, 'fetchMessages'])->name('chat.messages');
+    Route::post('direct/send', [ClientChatController::class, 'sendMessage'])->name('chat.send');
+    Route::get('direct/start/{userId}', [ClientChatController::class, 'startChat'])->name('chat.start');
+    Route::post('direct/read/{conversationId}', [ClientChatController::class, 'markAsRead'])->name('chat.read');
+
     /* Media */
     Route::post('media/create' , [MediaController::class , 'create'])->name('media.create');
     Route::post('media/story' , [MediaController::class , 'story'])->name('media.story');
@@ -69,6 +82,11 @@ Route::prefix('admin')->middleware(['web' , 'auth:web'])->group(function () {
 
 
     Route::resource('users' , UserController::class)->names('user');
+    Route::resource('posts' , AdminPostController::class)->only(['index', 'show', 'destroy'])->names('admin.posts');
+    Route::resource('stories' , AdminStoryController::class)->only(['index', 'destroy'])->names('admin.stories');
+    Route::resource('comments' , AdminCommentController::class)->only(['index', 'destroy'])->names('admin.comments');
+    Route::resource('chats' , AdminChatController::class)->only(['index', 'show', 'destroy'])->names('admin.chats');
+    Route::delete('chats/messages/{id}', [AdminChatController::class, 'destroyMessage'])->name('admin.chats.message.destroy');
 });
 
 Route::get('login' , [LoginController::class, 'index'])->name('adminLogin');
