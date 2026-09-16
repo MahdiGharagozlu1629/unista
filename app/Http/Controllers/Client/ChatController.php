@@ -144,6 +144,7 @@ class ChatController extends Controller
                     'time_human' => $msg->time_human,
                     'created_at' => $msg->created_at->toISOString(),
                     'sender_username' => $msg->sender->username ?? '',
+                    'sender_avatar' => $msg->sender->avatar_url ?? asset('img/profile.jpg'),
                 ];
             })
         ]);
@@ -214,7 +215,7 @@ class ChatController extends Controller
                 'time_human' => $message->time_human,
                 'created_at' => $message->created_at->toISOString(),
                 'sender_username' => $message->sender->username ?? '',
-                'sender_avatar' => asset('img/profile.jpg'),
+                'sender_avatar' => $message->sender->avatar_url ?? asset('img/profile.jpg'),
             ]
         ]);
     }

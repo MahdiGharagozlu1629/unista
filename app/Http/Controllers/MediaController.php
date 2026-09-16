@@ -41,4 +41,34 @@ class MediaController extends Controller
         return response()->json($media->id);
 
     }
+
+    public function profile(Request $request)
+    {
+        $file = $request->file('file') ?? $request->file('profile_image');
+        if (!$file) {
+            return response()->json(['error' => 'فایلی ارسال نشده است'], 400);
+        }
+
+        $userId = auth()->guard('client')->id();
+        $filename = Str::random(12) . '.' . $file->getClientOriginalExtension();
+        $file->storeAs("public/profile", $filename);
+
+        $media = Media::create([
+            'user_id' => $userId,
+            'name' => $filename,
+            'type' => $file->getClientOriginalExtension(),
+            'path' => 'profile'
+        ]);
+
+        $user = auth()->guard('client')->user();
+        if ($user) {
+            $user->update(['profile_id' => $media->id]);
+        }
+
+        return response()->json([
+            'id' => $media->id,
+            'url' => asset("storage/profile/{$filename}"),
+            'message' => 'عکس پروفایل با موفقیت بروزرسانی شد'
+        ]);
+    }
 }

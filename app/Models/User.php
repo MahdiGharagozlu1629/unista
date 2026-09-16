@@ -2,13 +2,15 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class User extends Authenticatable
 {
@@ -22,7 +24,8 @@ class User extends Authenticatable
         'family',
         'phone',
         'national_code',
-        'student_code'
+        'student_code',
+        'profile_id'
     ];
 
     protected $hidden = [
@@ -80,5 +83,24 @@ class User extends Authenticatable
     public function receivedMessages(): HasMany
     {
         return $this->hasMany(Message::class, 'receiver_id');
+    }
+
+    public function profile(): BelongsTo
+    {
+        return $this->belongsTo(Media::class, 'profile_id');
+    }
+
+    public function profileMedia(): BelongsTo
+    {
+        return $this->belongsTo(Media::class, 'profile_id');
+    }
+
+    public function getAvatarUrlAttribute(): string
+    {
+        if ($this->profile && $this->profile->name) {
+            $folder = $this->profile->path ?: 'profile';
+            return asset("storage/{$folder}/{$this->profile->name}");
+        }
+        return asset('img/profile.jpg');
     }
 }

@@ -43,16 +43,6 @@ class HomeController extends Controller
             ->orderBy('created_at', 'asc')
             ->get();
 
-        // If followings don't have stories yet, include other active public stories for discovery/testing
-        if ($otherStories->isEmpty()) {
-            $otherStories = Story::query()
-                ->where('created_at', '>=', now()->subDay())
-                ->where('user_id', '!=', $user->id)
-                ->with(['user', 'mediaItem'])
-                ->orderBy('created_at', 'asc')
-                ->get();
-        }
-
         // Group other users' stories by user_id
         $groupedStories = $otherStories->groupBy('user_id');
 

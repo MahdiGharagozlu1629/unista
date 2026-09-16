@@ -1219,6 +1219,17 @@ body {
     line-height: 1.5;
 }
 
+.ig-input {
+    background: #0a0a0a !important;
+    border: 1px solid var(--ig-border, #262626) !important;
+    border-radius: 10px !important;
+    color: #fafafa !important;
+    resize: none;
+    padding: 1.45rem 1rem !important;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
 .ig-textarea::placeholder {
     color: #737373;
 }

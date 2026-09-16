@@ -10,7 +10,7 @@
                 {{-- Current User Story --}}
                 <div class="story my-story" data-user-id="{{ auth('client')->id() ?? auth()->id() }}" @if(!empty($myStories) && $myStories->isNotEmpty()) onclick="openStoryViewer({{ auth('client')->id() ?? auth()->id() }})" @endif>
                     <div class="story-ring position-relative {{ (!empty($myStories) && $myStories->isNotEmpty()) ? 'has-story' : 'no-story' }}" title="{{ (!empty($myStories) && $myStories->isNotEmpty()) ? 'مشاهده استوری شما' : 'افزودن استوری' }}">
-                        <img src="{{ asset('img/profile.jpg') }}" alt="استوری شما">
+                        <img src="{{ auth('client')->user()->avatar_url ?? asset('img/profile.jpg') }}" alt="استوری شما">
                         <a href="{{ route('add.story') }}" class="add-story" title="افزودن استوری" onclick="event.stopPropagation();">
                             <span class="fe fe-plus"></span>
                         </a>
@@ -27,7 +27,7 @@
                         @if($storyUser)
                             <div class="story user-story" data-user-id="{{ $storyUser->id }}" onclick="openStoryViewer({{ $storyUser->id }})" title="استوری {{ $storyUser->username }}">
                                 <div class="story-ring has-story">
-                                    <img src="{{ asset('img/profile.jpg') }}" alt="{{ $storyUser->username }}">
+                                    <img src="{{ $storyUser->avatar_url }}" alt="{{ $storyUser->username }}">
                                 </div>
                                 <div class="story-name">{{ $storyUser->username }}</div>
                             </div>
@@ -42,7 +42,7 @@
             @forelse($posts as $post)
                 <article class="post-card">
                     <div class="post-head">
-                        <img class="avatar" src="{{ asset('img/profile.jpg') }}" alt="">
+                        <img class="avatar" src="{{ $post->user->avatar_url ?? asset('img/profile.jpg') }}" alt="">
                         <a href="{{ route('users.show', ['id' => $post->user->id]) }}" class="username">
                             {{ $post->user->username }}
                         </a>

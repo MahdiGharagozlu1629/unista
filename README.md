@@ -130,9 +130,9 @@ Coming soon...
 - [x] Follow System
 - [x] Search 
 - [x] Explore Page
+- [x] Real-time Chat
+- [x] Admin Panel
 - [ ] Notifications
-- [ ] Real-time Chat
-- [ ] Admin Panel
 
 ---
 

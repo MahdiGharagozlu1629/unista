@@ -75,7 +75,7 @@
             </li>
             <li>
                 <a href="{{ route('profile') }}" class="sidebar-item {{ request()->routeIs('profile') ? 'active' : '' }}">
-                    <img src="{{ asset('img/profile.jpg') }}" alt="profile" class="sidebar-avatar">
+                    <img src="{{ auth('client')->user()->avatar_url ?? asset('img/profile.jpg') }}" alt="profile" class="sidebar-avatar">
                     <span class="sidebar-title">پروفایل</span>
                 </a>
             </li>
@@ -127,7 +127,7 @@
         <span class="fe fe-heart"></span>
     </a>
     <a href="{{ route('profile') }}" class="{{ request()->routeIs('profile') ? 'active' : '' }}" title="پروفایل">
-        <img src="{{ asset('img/profile.jpg') }}" alt="profile" class="nav-avatar">
+        <img src="{{ auth('client')->user()->avatar_url ?? asset('img/profile.jpg') }}" alt="profile" class="nav-avatar">
     </a>
 </nav>
 

@@ -17,7 +17,7 @@
         {{-- Post Article --}}
         <article class="post-card">
             <div class="post-head">
-                <img class="avatar" src="{{ asset('img/profile.jpg') }}" alt="{{ $post->user->username }}">
+                <img class="avatar" src="{{ $post->user->avatar_url ?? asset('img/profile.jpg') }}" alt="{{ $post->user->username }}">
                 <a href="{{ route('users.show', ['id' => $post->user->id]) }}" class="username">
                     {{ $post->user->username }}
                 </a>
@@ -57,13 +57,6 @@
                 <button type="button" class="act comment-btn" title="نظرات">
                     <svg class="post-icon icon-comment" aria-label="نظر" fill="none" height="24" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="24">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
-                    </svg>
-                </button>
-
-                <button type="button" class="act share-btn" title="ارسال">
-                    <svg class="post-icon icon-share" aria-label="ارسال" fill="none" height="24" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="24">
-                        <line x1="22" y1="2" x2="11" y2="13"></line>
-                        <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
                     </svg>
                 </button>
 
@@ -109,7 +102,7 @@
                 <div class="comments-list" id="commentsList">
                     @forelse($post->comments as $comment)
                         <div class="comment-item" id="comment-{{ $comment->id }}">
-                            <img src="{{ asset('img/profile.jpg') }}" alt="{{ $comment->user->username }}" class="comment-avatar">
+                            <img src="{{ $comment->user->avatar_url ?? asset('img/profile.jpg') }}" alt="{{ $comment->user->username }}" class="comment-avatar">
                             <div class="comment-body">
                                 <div class="comment-content">
                                     <a href="{{ route('users.show', ['id' => $comment->user->id]) }}" class="comment-username">
@@ -144,7 +137,7 @@
                 <div class="comment-form-wrap">
                     <form action="{{ route('comment.store', ['postId' => $post->id]) }}" method="post" class="comment-form" id="commentForm">
                         @csrf
-                        <img src="{{ asset('img/profile.jpg') }}" alt="شما" class="comment-form-avatar">
+                        <img src="{{ auth('client')->user()->avatar_url ?? asset('img/profile.jpg') }}" alt="شما" class="comment-form-avatar">
                         <div class="comment-input-wrap">
                             <input
                                 type="text"

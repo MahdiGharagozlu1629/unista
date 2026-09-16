@@ -33,7 +33,7 @@
                            data-peer-id="{{ $peer->id }}"
                            data-peer-name="{{ $peer->username }}">
                             <div class="direct-thread-avatar-wrap">
-                                <img src="{{ asset('img/profile.jpg') }}" alt="{{ $peer->username }}" class="direct-thread-avatar">
+                                <img src="{{ $peer->avatar_url }}" alt="{{ $peer->username }}" class="direct-thread-avatar">
                             </div>
                             <div class="direct-thread-info">
                                 <div class="direct-thread-top">
@@ -76,7 +76,7 @@
                             <span class="fe fe-arrow-right"></span>
                         </a>
                         <a href="{{ route('users.show', ['id' => $peer->id]) }}" class="direct-header-avatar-link">
-                            <img src="{{ asset('img/profile.jpg') }}" alt="{{ $peer->username }}" class="direct-header-avatar">
+                            <img src="{{ $peer->avatar_url }}" alt="{{ $peer->username }}" class="direct-header-avatar">
                         </a>
                         <div class="direct-header-info">
                             <a href="{{ route('users.show', ['id' => $peer->id]) }}" class="direct-header-name">
@@ -94,7 +94,7 @@
                 {{-- Messages Stream --}}
                 <div class="direct-messages-stream" id="directMessagesStream">
                     <div class="direct-conversation-start">
-                        <img src="{{ asset('img/profile.jpg') }}" alt="{{ $peer->username }}" class="direct-start-avatar">
+                        <img src="{{ $peer->avatar_url }}" alt="{{ $peer->username }}" class="direct-start-avatar">
                         <h4 class="direct-start-title">{{ $peer->username }}</h4>
                         <p class="direct-start-desc">دانشجوی فعال در Unista</p>
                         <a href="{{ route('users.show', ['id' => $peer->id]) }}" class="direct-view-profile-btn">مشاهده پروفایل</a>
@@ -107,7 +107,7 @@
                             @endphp
                             <div class="direct-msg-row {{ $isMe ? 'msg-row-me' : 'msg-row-peer' }}" data-msg-id="{{ $msg->id }}">
                                 @if(!$isMe)
-                                    <img src="{{ asset('img/profile.jpg') }}" alt="" class="direct-msg-avatar">
+                                    <img src="{{ $peer->avatar_url }}" alt="" class="direct-msg-avatar">
                                 @endif
                                 <div class="direct-bubble {{ $isMe ? 'bubble-me' : 'bubble-peer' }}">
                                     <div class="direct-bubble-text">{{ $msg->body }}</div>
@@ -272,7 +272,7 @@
             function appendMessageBubble(msg, isMe) {
                 const bubbleHtml = `
                     <div class="direct-msg-row ${isMe ? 'msg-row-me' : 'msg-row-peer'}" data-msg-id="${msg.messageId || msg.id}">
-                        ${!isMe ? `<img src="${msg.senderAvatar || '{{ asset('img/profile.jpg') }}'}" class="direct-msg-avatar" alt="">` : ''}
+                        ${!isMe ? `<img src="${msg.senderAvatar || msg.sender_avatar || '{{ $activeConversation && $activeConversation->other_user ? $activeConversation->other_user->avatar_url : asset('img/profile.jpg') }}'}" class="direct-msg-avatar" alt="">` : ''}
                         <div class="direct-bubble ${isMe ? 'bubble-me' : 'bubble-peer'}">
                             <div class="direct-bubble-text">${escapeHtml(msg.body)}</div>
                             <div class="direct-bubble-meta">

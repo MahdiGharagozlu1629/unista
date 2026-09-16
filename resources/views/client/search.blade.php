@@ -57,7 +57,7 @@
                     @forelse($users as $user)
                         <a href="{{ route('users.show', ['id' => $user->id]) }}" class="search-user-item">
                             <div class="search-user-left">
-                                <img src="{{ asset('img/profile.jpg') }}" alt="{{ $user->username }}" class="search-user-avatar">
+                                <img src="{{ $user->avatar_url }}" alt="{{ $user->username }}" class="search-user-avatar">
                                 <div class="search-user-meta">
                                     <span class="search-user-username">{{ $user->username }}</span>
                                     <span class="search-user-fullname">{{ $user->name }} {{ $user->family }}</span>

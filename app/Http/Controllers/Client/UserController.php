@@ -149,4 +149,84 @@ class UserController extends Controller
 
         return view('Client::profile.saved-posts', compact('posts'));
     }
+
+    public function editProfile()
+    {
+        $user = Auth::guard('client')->user();
+
+        return view('Client::profile.edit-profile', compact('user'));
+    }
+
+    public function updateProfile(Request $request)
+    {
+        $user = Auth::guard('client')->user();
+
+        $request->validate([
+            'name' => 'required',
+            'family' => 'required',
+            'username' => 'required|unique:users,username,' . $user->id,
+            'phone' => 'required|max:11|unique:users,phone,' . $user->id,
+            'profile_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:5120',
+        ], [
+            'name.required' => 'فیلد نام اجباری است',
+            'family.required' => 'فیلد نام خانوادگی اجباری است',
+            'username.required' => 'فیلد نام کاربری اجباری است',
+            'username.unique' => 'فیلد نام کاربری باید یکتا باشد',
+            'phone.required' => 'فیلد شماره تلفن اجباری است',
+            'phone.unique' => 'فیلد شماره تلفن باید یکتا باشد',
+            'profile_image.image' => 'فایل انتخابی باید یک تصویر معتبر باشد',
+        ]);
+
+        $updateData = [
+            'name' => $request->name,
+            'family' => $request->family,
+            'username' => $request->username,
+            'phone' => $request->phone,
+        ];
+
+        // 1. Direct file upload
+        if ($request->hasFile('profile_image')) {
+            $file = $request->file('profile_image');
+            $filename = \Illuminate\Support\Str::random(12) . '.' . $file->getClientOriginalExtension();
+            $file->storeAs("public/profile", $filename);
+
+            $media = Media::create([
+                'user_id' => $user->id,
+                'name' => $filename,
+                'type' => $file->getClientOriginalExtension(),
+                'path' => 'profile'
+            ]);
+
+            $updateData['profile_id'] = $media->id;
+        }
+        // 2. Dropzone media input
+        elseif ($request->has('media') && !empty($request->media)) {
+            $mediaId = is_array($request->media) ? end($request->media) : $request->media;
+            if ($mediaId) {
+                $updateData['profile_id'] = $mediaId;
+            }
+        }
+
+        $user->update($updateData);
+
+        return redirect()->route('profile')->with('success', 'پروفایل با موفقیت ویرایش شد');
+    }
+
+    public function removeProfilePhoto(Request $request)
+    {
+        $user = Auth::guard('client')->user();
+        if ($user) {
+            $user->update(['profile_id' => null]);
+        }
+
+        if ($request->wantsJson() || $request->ajax()) {
+            return response()->json([
+                'success' => true,
+                'avatar_url' => asset('img/profile.jpg'),
+                'message' => 'عکس پروفایل با موفقیت حذف شد'
+            ]);
+        }
+
+        return redirect()->back()->with('success', 'عکس پروفایل با موفقیت حذف شد');
+    }
 }

@@ -14,10 +14,12 @@
                     <div class="avatar-wrap">
                         @if(!empty($hasActiveStory) && $hasActiveStory)
                             <a href="{{ route('story.show', ['userId' => $user->id]) }}" class="story-ring has-story d-inline-block" style="width: 82px; height: 82px; padding: 2.5px;" title="مشاهده استوری">
-                                <img class="profile-avatar" src="{{ asset('img/profile.jpg') }}" alt="{{ $user->username }}" style="width: 100%; height: 100%;">
+                                <img class="profile-avatar" src="{{ $user->avatar_url }}" alt="{{ $user->username }}" style="width: 100%; height: 100%;">
                             </a>
                         @else
-                            <img class="profile-avatar" src="{{ asset('img/profile.jpg') }}" alt="{{ $user->username }}">
+                            <a href="{{ route('edit.profile') }}" title="تغییر عکس پروفایل" class="d-inline-block position-relative">
+                                <img class="profile-avatar" src="{{ $user->avatar_url }}" alt="{{ $user->username }}">
+                            </a>
                         @endif
                     </div>
                     <div class="profile-stats-mobile">
@@ -46,7 +48,7 @@
                         <i class="fe fe-bell"></i>
                         درخواست‌ها
                     </a>
-                    <a href="#" class="ig-btn ig-btn-dark">
+                    <a href="{{route("edit.profile")}}" class="ig-btn ig-btn-dark">
                         <i class="fe fe-edit-2"></i>
                         ویرایش پروفایل
                     </a>
@@ -61,10 +63,12 @@
             <div class="avatar-wrap d-none d-md-flex">
                 @if(!empty($hasActiveStory) && $hasActiveStory)
                     <a href="{{ route('story.show', ['userId' => $user->id]) }}" class="story-ring has-story d-inline-block" style="width: 148px; height: 148px; padding: 3.5px;" title="مشاهده استوری">
-                        <img class="profile-avatar" src="{{ asset('img/profile.jpg') }}" alt="{{ $user->username }}" style="width: 100%; height: 100%;">
+                        <img class="profile-avatar" src="{{ $user->avatar_url }}" alt="{{ $user->username }}" style="width: 100%; height: 100%;">
                     </a>
                 @else
-                    <img class="profile-avatar" src="{{ asset('img/profile.jpg') }}" alt="{{ $user->username }}">
+                    <a href="{{ route('edit.profile') }}" title="تغییر عکس پروفایل" class="d-inline-block position-relative">
+                        <img class="profile-avatar" src="{{ $user->avatar_url }}" alt="{{ $user->username }}">
+                    </a>
                 @endif
             </div>
 
@@ -76,7 +80,7 @@
                             <i class="fe fe-bell"></i>
                             درخواست‌ها
                         </a>
-                        <a href="#" class="ig-btn ig-btn-dark">
+                        <a href="{{route("edit.profile")}}" class="ig-btn ig-btn-dark">
                             <i class="fe fe-edit-2"></i>
                             ویرایش پروفایل
                         </a>
@@ -113,16 +117,12 @@
         @if(count($user->posts) > 0)
             <div class="posts-grid">
                 @foreach($user->posts as $post)
-                    <a href="#">
+                    <a href="{{route("post.comments" , ['postId' => $post->id])}}">
                         @if($post->media && !empty($post->media->name))
                             <img src="{{ asset("storage/posts/" . $post->media->name) }}" alt="Post">
                         @else
                             <img src="{{ asset('img/profile.jpg') }}" alt="Post">
                         @endif
-                        <div class="grid-overlay">
-                            <span>❤️ ۱۲</span>
-                            <span>💬 ۲</span>
-                        </div>
                     </a>
                 @endforeach
             </div>

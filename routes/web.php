@@ -62,6 +62,9 @@ Route::group(['middleware' => ['web' , 'auth.client']], function () {
 
     /* Profile */
     Route::get('saved-posts' , [ClientUserController::class , 'savedPosts'])->name('saved.posts');
+    Route::get('edit-profile' , [ClientUserController::class , 'editProfile'])->name('edit.profile');
+    Route::put('update-profile' , [ClientUserController::class , 'updateProfile'])->name('update.profile');
+    Route::post('profile/remove-photo' , [ClientUserController::class , 'removeProfilePhoto'])->name('profile.photo.remove');
 
     /* Direct / Chat */
     Route::get('direct/{conversationId?}', [ClientChatController::class, 'index'])->name('chat.index');
@@ -74,6 +77,7 @@ Route::group(['middleware' => ['web' , 'auth.client']], function () {
     /* Media */
     Route::post('media/create' , [MediaController::class , 'create'])->name('media.create');
     Route::post('media/story' , [MediaController::class , 'story'])->name('media.story');
+    Route::post('media/profile' , [MediaController::class , 'profile'])->name('media.profile');
 });
 
 Route::prefix('admin')->middleware(['web' , 'auth:web'])->group(function () {

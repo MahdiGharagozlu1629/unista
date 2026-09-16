@@ -15,7 +15,7 @@
                 <div class="fr-list">
                     @foreach($requests as $request)
                         <div class="fr-item">
-                            <img class="fr-avatar" src="{{ asset('img/profile.jpg') }}" alt="">
+                            <img class="fr-avatar" src="{{ $request->followers->avatar_url ?? asset('img/profile.jpg') }}" alt="">
                             <div class="fr-content">
                                 <a class="fr-username"
                                    href="{{ route('users.show', ['id' => $request->followers->id]) }}">
