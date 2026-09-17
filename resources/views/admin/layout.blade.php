@@ -113,6 +113,12 @@
                         <span class="ml-3 item-text">چت‌ها</span>
                     </a>
                 </li>
+                <li class="nav-item w-100">
+                    <a class="nav-link" href="{{route("archived.stories")}}">
+                        <i class="fe fe-archive fe-16"></i>
+                        <span class="ml-3 item-text">استوری های آرشیو شده</span>
+                    </a>
+                </li>
             </ul>
 
         </nav>

@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Media;
 use App\Models\Post;
 use App\Models\PostAction;
+use App\Models\Story;
 use App\Models\User;
 use App\Models\UserFollow;
 use Illuminate\Http\Request;
@@ -228,5 +229,19 @@ class UserController extends Controller
         }
 
         return redirect()->back()->with('success', 'عکس پروفایل با موفقیت حذف شد');
+    }
+
+    public function archivedStories()
+    {
+        $stories = Story::query()
+            ->onlyTrashed()
+            ->where('stories.user_id' , Auth::guard('client')->id())
+            ->join('media', 'stories.media', '=', 'media.id')
+            ->withTrashed()
+            ->orderBy('stories.id', 'desc')
+            ->get();
+
+
+        return view('Client::profile.archived-stories', compact('stories'));
     }
 }

@@ -7,15 +7,15 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\IndexController;
 use App\Http\Controllers\Admin\LoginController;
 use App\Http\Controllers\Admin\PostController as AdminPostController;
-use App\Http\Controllers\Admin\StoryController as AdminStoryController;
-use App\Http\Controllers\Admin\CommentController as AdminCommentController;
 use App\Http\Controllers\Admin\ChatController as AdminChatController;
 use App\Http\Controllers\Client\UserController as ClientUserController;
+use App\Http\Controllers\Admin\StoryController as AdminStoryController;
 use App\Http\Controllers\Client\PostController as ClientPostController;
+use App\Http\Controllers\Client\ChatController as ClientChatController;
 use App\Http\Controllers\Client\StoryController as ClientStoryController;
+use App\Http\Controllers\Admin\CommentController as AdminCommentController;
 use App\Http\Controllers\Client\CommentController as ClientCommentController;
 use App\Http\Controllers\Client\PostActionController as ClientPostActionController;
-use App\Http\Controllers\Client\ChatController as ClientChatController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -65,6 +65,7 @@ Route::group(['middleware' => ['web' , 'auth.client']], function () {
     Route::get('edit-profile' , [ClientUserController::class , 'editProfile'])->name('edit.profile');
     Route::put('update-profile' , [ClientUserController::class , 'updateProfile'])->name('update.profile');
     Route::post('profile/remove-photo' , [ClientUserController::class , 'removeProfilePhoto'])->name('profile.photo.remove');
+    Route::get('archived-stories' , [ClientUserController::class , 'archivedStories'])->name('archived-stories');
 
     /* Direct / Chat */
     Route::get('direct/{conversationId?}', [ClientChatController::class, 'index'])->name('chat.index');
@@ -91,6 +92,7 @@ Route::prefix('admin')->middleware(['web' , 'auth:web'])->group(function () {
     Route::resource('comments' , AdminCommentController::class)->only(['index', 'destroy'])->names('admin.comments');
     Route::resource('chats' , AdminChatController::class)->only(['index', 'show', 'destroy'])->names('admin.chats');
     Route::delete('chats/messages/{id}', [AdminChatController::class, 'destroyMessage'])->name('admin.chats.message.destroy');
+    Route::get('archived-stories', [AdminStoryController::class, 'archivedStories'])->name('archived.stories');
 });
 
 Route::get('login' , [LoginController::class, 'index'])->name('adminLogin');

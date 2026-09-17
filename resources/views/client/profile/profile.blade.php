@@ -56,6 +56,10 @@
                         <i class="fe fe-bookmark"></i>
                         پست های ذخیره شده
                     </a>
+                    <a href="{{route("archived-stories")}}" class="ig-btn ig-btn-dark">
+                        <i class="fe fe-archive"></i>
+                        آرشیو استوری
+                    </a>
                 </div>
             </div>
 
@@ -88,6 +92,12 @@
                             <i class="fe fe-bookmark"></i>
                             پست های ذخیره شده
                         </a>
+
+                        <a href="{{route("archived-stories")}}" class="ig-btn ig-btn-dark">
+                            <i class="fe fe-archive"></i>
+                            آرشیو استوری
+                        </a>
+
                     </div>
                 </div>
 

@@ -63,7 +63,7 @@ class CommentController extends Controller
     {
         $comment = Comment::with('post')->findOrFail($id);
 
-        if ($comment->user_id == Auth::guard('client')->id() || ($comment->post && $comment->post->user_id == Auth::id())) {
+        if ($comment->user_id == Auth::guard('client')->id() || ($comment->post && $comment->post->user_id == Auth::guard('client')->id())) {
             $comment->delete();
             return response()->json(['success' => true]);
         }

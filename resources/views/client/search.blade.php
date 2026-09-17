@@ -83,7 +83,7 @@
 
             <div class="explore-grid" id="postsGrid">
                 @forelse($posts as $post)
-                    <a href="{{ isset($post->user) ? route('users.show', ['id' => $post->user->id]) : '#' }}" class="explore-card">
+                    <a href="{{ isset($post->user) ? route('post.comments', ['postId' => $post->id]) : '#' }}" class="explore-card">
                         @if($post->media_item && !empty($post->media_item->name))
                             <img src="{{ asset('storage/posts/' . $post->media_item->name) }}" alt="Post by {{ $post->user->username ?? '' }}" loading="lazy">
                         @else
